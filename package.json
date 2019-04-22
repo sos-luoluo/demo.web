@@ -1,0 +1,19 @@
+{
+  "name": "yy.officialweb",
+  "version": "1.0.0",
+  "description": "yy.officialweb",
+  "main": "webpack.config.js",
+  "dependencies": {
+    "webpack-cli": "^3.1.0",
+    "webpack": "^4.18.0"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^3.1.8"
+  },
+  "scripts": {
+    "dev": "webpack-dev-server"
+  },
+  "keywords": [],
+  "author": "ll",
+  "license": "ISC"
+}

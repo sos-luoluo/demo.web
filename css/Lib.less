@@ -1,0 +1,205 @@
+/***********************
+======▶CSS核心文件◀======
+========★落落★========
+***********************/
+
+@charset "utf-8";
+@import "Config.less";
+
+// 初始化
+.Initialization(){
+  html, body, body div, span, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,abbr, address, cite, code, del, dfn, em, img, 
+  ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, footer, header, menu, nav, section, 
+  time, mark, audio, video, details, summary,button{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    font-family: @f_family_main;
+    vertical-align: baseline;
+    background: transparent;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust:none;
+  }
+  html,body{height: 100%;}
+  article, aside, figure, footer, header, nav, section, details, summary {display: block;}
+  *,*:before,*:after{-moz-box-sizing:inherit;-webkit-box-sizing:inherit;box-sizing:inherit}
+  img,object,embed{max-width:100%}
+  i,em{font-style:normal}
+  ol,ul,li{list-style:none}
+  h1,h2,h3,h4,h5,h6,b{font-weight:normal}
+  a{margin:0;padding:0;font-size:100%;vertical-align:baseline;background:transparent;color:inherit}
+  a,a:hover,a:active,a:focus{text-decoration:none;outline:none;cursor:pointer}
+  hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}
+  table{border-collapse:collapse;border-spacing:0}
+  p{-ms-word-break:break-all;word-break:break-all;text-align:justify}
+  input,textarea{display:block;margin:0;padding:0;border-radius:0;border:none;font-size:100%;font-family:@f_family_main;line-height:1.2em;color:inherit;outline:none;-webkit-appearance:none}
+  input::-webkit-input-placeholder{line-height:1.2em}
+  .wrap{width:100%;min-height:100%; min-width:@minWidth;overflow:auto;position: relative;}
+  button {border: none;}
+}
+
+/*#region 布局 */
+// 显示方式
+.inline-box{display:inline;}
+.inlineblock-box{display:inline-block;}
+.block-box{display:block;}
+.hide{display: none;}
+.borderBox{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}
+// flex布局
+.flex{display:-moz-box;display:-webkit-flex;display:-moz-flex;display:-ms-flexbox;display:flex;}
+.flex_center{align-items:center;}
+.flex_top{align-items:flex-start;}
+.flex_bottom{align-items: flex-end;}
+.flex_1{-o-box-flex:1;-moz-box-flex:1;-webkit-box-flex: 1;box-flex: 1;flex: 1;}
+.flex_2{-o-box-flex: 2;-moz-box-flex: 2;-webkit-box-flex:2;box-flex: 2;flex: 2;}
+// float布局
+.fl{float:left;}
+.fr{float:right;}
+.cf{clear: both;overflow: hidden;}
+.cfa::after {display:block;content:"";.cf}
+// 行内块元素布局
+.hf{font-size:0;}
+.ftp{display:inline-block;vertical-align:top;}
+.fp{display:inline-block;vertical-align:middle;}
+.fbp{display: inline-block;vertical-align: bottom;}
+// 对齐方式
+.tr{text-align: right;}
+.tl{text-align: left;}
+.tc{text-align: center;}
+// 通过伪类元素垂直居中
+.vm{
+  &:after{content:"";display:inline-block;height:100%;width:0;visibility:hidden;vertical-align:middle;}
+}
+// 同行垂直居中显示伪元素
+.peInline(@width,@height){content:"";display:inline-block;width:@width;height:@height;line-height:1em;vertical-align:middle;}
+/*#endregion*/
+
+/*#region 图片相关 */
+// 背景图片
+.backgroundImg(@imgUrl){background-image: @imgUrl;background-repeat: no-repeat;background-size: cover;background-position: center center;}
+// 图标
+.icon(@width,@height,@imgName){
+  .peInline(@width,@height);
+  .backgroundImg(e(%('url("%s/%s")',@imgUrl,@imgName)));
+}
+//图片比例
+.img-responsive{position:relative;height:0;background-size:cover;background-position:center;background-color:@c_whitesmoke;overflow: hidden;
+  &.img-1by1{padding-bottom:100%;}
+  &.img-2by1{padding-bottom:50%;}
+  &.img-16by9{padding-bottom:56.25%;}
+  &.img-16by10{padding-bottom:62.5%;}
+  &.img-4by3{padding-bottom:75%;}
+  &.img-25by12{padding-bottom:48%;}
+  .responsive-item{position:absolute;top:0;right:0;left:0;bottom:0;border:0;background-size:cover;background-position:center;
+    img{display: none;}
+  }
+}
+// 图标盒子
+.iconbox{font-size:0;}
+/*#endregion*/
+
+/*#region 文本相关 */
+// 两端对齐
+.textJustifyBreak{-ms-word-break:break-all;word-break:break-all;text-align:justify;}
+// 单行超出省略
+.text-ellipsis{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+// 多行超出省略
+.multi-text-ellipsis{display:-webkit-box;position:relative;-webkit-box-orient:vertical;text-overflow:ellipsis;overflow:hidden;/* -webkit-line-clamp: 2; */}
+/*#endregion*/
+
+/*#region 提升体验 */
+// 滚动盒子
+.scrollbar-box{-webkit-overflow-scrolling:touch;}
+// 设置webkit内核浏览器滚动条样式
+.setScrollbar() {
+  ::-webkit-scrollbar {width: 6px;height: 6px;}
+  ::-webkit-scrollbar-track-piece {background-color: #CCCCCC;-webkit-border-radius: 6px;border-radius: 6px;}
+  ::-webkit-scrollbar-thumb:vertical {height: 5px;background-color: #999999;-webkit-border-radius: 6px;border-radius: 6px;}
+  ::-webkit-scrollbar-thumb:horizontal {width: 5px;background-color: #CCCCCC;-webkit-border-radius: 6px;border-radius: 6px;}
+}
+// 改变输入框placeholder颜色
+.setPlaceholderColor(@color) {
+  &::-webkit-input-placeholder {color:@color;}
+  &:-moz-placeholder {color:@color;}
+  &::-moz-placeholder {color:@color;}
+  &:-ms-input-placeholder {color:@color;}
+}
+// switch按钮
+.switch{
+  width: 60px;
+  height: 31px;
+  position: relative;
+  border: 1px solid #dfdfdf;
+  background-color: #fdfdfd;
+  box-shadow: #dfdfdf 0 0 0 0 inset;
+  border-radius: 20px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-clip: content-box;
+  display: inline-block;
+  -webkit-appearance: none;
+  user-select: none;
+  outline: none;
+  transition: border cubic-bezier(0, 0, 0, 1) 0.4s, box-shadow cubic-bezier(0, 0, 0, 1) 0.4s,background-color ease 0.4s; 
+  &:before{
+    content: '';
+    width: 29px;
+    height: 29px;
+    position: absolute;
+    top: 0px;
+    left: 1px;
+    border-radius: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); 
+    transition: left 0.3s;
+  }
+  &:checked{
+    border-color: #64bd63;
+    box-shadow: #64bd63 0 0 0 16px inset;
+    background-color: #64bd63;
+    box-shadow: #dfdfdf 0 0 0 0 inset;
+    background-color: #64bd63;
+    transition: border ease 0.4s, box-shadow ease 0.4s, background-color ease 1.2s;
+    &:before{
+      left: 29px; 
+      transition: left 0.3s;
+    }
+  }
+}
+/*#endregion*/
+
+/*#region 常用组件 */
+
+// 文编编辑器内容
+.edit-cotar{
+  .edui-container{max-width: 1000px;}
+  p{line-height: 1.8em;margin: 15px 0;}
+  i,cite,em,var,address,dfn{font-style:italic}
+  strong,b{font-weight:bold}
+  sup{vertical-align:super;font-size:12px;line-height: 1em;}
+  sub{vertical-align:sub;font-size:12px;line-height: 1em;}
+}
+
+// 弹窗
+.pop-wrap {
+  position:fixed;top:0;left:0;right:0;bottom:0;text-align:center;z-index:1000;.vm;
+  .pop-content{
+    position:relative;display:inline-block;background:@c_white;vertical-align:middle;
+    .pop-close{
+      position:absolute;top:10px;right:10px;cursor: pointer;
+    }
+  }
+  .pop-bg{
+    position:absolute;top:0;right:0;bottom:0;left:0;z-index:-1;background-color:#000;opacity:0.8;
+  }
+}
+/*#endregion*/
