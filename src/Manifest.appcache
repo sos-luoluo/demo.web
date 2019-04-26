@@ -1,0 +1,9 @@
+CACHE MANIFEST
+# 离线可用文件
+
+NETWORK:
+# 需要连接NET才能使用
+
+FALLBACK:
+# 离线时，使用资源替换
+#/html/ /offline.html

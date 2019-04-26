@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Demo</title>
+</head>
+<body>
+  <div class="page test">
+    <div class="fa">
+      <div class="left">左边文字</div>
+      <div class="right">35133441</div>
+    </div>
+  </div>
+  <script src="../components/swiper-4.4.2/swiper.min.js"></script>
+  <script>
+    LL.mobileWeb.init()
+    var page={
+      Event: {
+        click(e){
+          console.log('clickEvent')
+          console.log(e)
+        }
+      },
+      ready(){
+        console.log('ready')
+      }
+    }
+    var hanler={
+      get: function(target,name){
+        if(target[name]){
+          return target[name]
+        }else if(target['Event']&&target['Event'][name]){
+          return target['Event'][name]
+        }else{
+          return '没有此方法'
+        }
+      }
+    }
+    var test=new Proxy(page,hanler)
+
+  </script>
+</body>
+
+</html>

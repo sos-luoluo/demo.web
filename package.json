@@ -1,19 +1,48 @@
 {
-  "name": "yy.officialweb",
+  "name": "app",
   "version": "1.0.0",
-  "description": "yy.officialweb",
-  "main": "webpack.config.js",
-  "dependencies": {
-    "webpack-cli": "^3.1.0",
-    "webpack": "^4.18.0"
+  "description": "this is a demo",
+  "main": "index.js",
+  "keywords": [
+    "demo",
+    "luoluo"
+  ],
+  "author": "luoluo",
+  "license": "ISC",
+  "scripts": {
+    "dev": "webpack && webpack-dev-server --config webpack.config.js --mode development",
+    "build": "webpack --mode production"
   },
   "devDependencies": {
-    "webpack-dev-server": "^3.1.8"
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/runtime": "^7.1.2",
+    "autoprefixer": "^9.5.1",
+    "babel-loader": "^8.0.5",
+    "babel-polyfill": "^6.26.0",
+    "clean-webpack-plugin": "^2.0.1",
+    "copy-webpack-plugin": "^5.0.2",
+    "css-loader": "^2.1.1",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "html-webpack-plugin": "^3.2.0",
+    "less": "^3.9.0",
+    "less-loader": "^4.1.0",
+    "mini-css-extract-plugin": "^0.6.0",
+    "postcss-loader": "^3.0.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.23.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
   },
-  "scripts": {
-    "dev": "webpack-dev-server"
+  "dependencies": {
+    "jquery": "^1.12.4"
   },
-  "keywords": [],
-  "author": "ll",
-  "license": "ISC"
+  "browserslist": [
+    "defaults",
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8",
+    "ios > 7"
+  ]
 }
