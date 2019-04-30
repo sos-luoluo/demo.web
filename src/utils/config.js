@@ -1,6 +1,6 @@
  /**
   * 项目配置文件
-  * @overview 配置文件，需要配置的信息均写在改文件里
+  * @overview 配置文件，需要配置的信息均写在该文件里
   * @author [luoluo]
   * @version 2.0.0
   */
@@ -65,8 +65,9 @@
 
 
  /**
-  * 密匙配置
+  * key配置
   */
-
- const key = {}
+ const key = {
+   tokenKey: 'token'
+ }
  

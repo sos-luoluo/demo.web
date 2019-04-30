@@ -12,7 +12,7 @@
   * @property {string} name 昵称
   * @property {string} headPortrait 头像
   */
- const NPCInfo = {
+ export const NPCInfo = {
    openID: "oCkn-0LsCAirFyL9nQ80myluoluo",
    name: "落落",
    headPortrait: "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTI2iasISZ1LOFONyGqyKiaEkbIIvyLPyz9cz1hocv2rcBwgGuqib2Y5BmD3YDSLcsUjc8PQXb9YdsKhg/0"
@@ -28,7 +28,7 @@
     * @property {array} week 星期字典库，可以用来处理星期显示格式
     * @property {array} numCn 中文数字字典库
     */
- const wordLib = {
+   export const wordLib = {
    int: numArr,
    char: characterArr,
    charAndNum: numArr.concat(characterArr),
@@ -48,7 +48,7 @@
   * @property {string} character 纯字母
   * @property {string} carNum 车牌号
   */
- const regular = {
+ export const regular = {
    phone: /^1[3|4|5|7|8|9][0-9]{9}$/,
    chinese: /^[\u4e00-\u9fa5]{1,10}$/,
    email: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
@@ -60,5 +60,3 @@
    character: /^[a-zA-Z]{1,}$/,
    carNum: /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$/
  }
-
- 
