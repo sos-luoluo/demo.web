@@ -29,9 +29,9 @@
     * @property {array} numCn 中文数字字典库
     */
    export const wordLib = {
-   int: numArr,
-   char: characterArr,
-   charAndNum: numArr.concat(characterArr),
+   int: numLib,
+   char: characterLib,
+   charAndNum: numLib.concat(characterLib),
    week: "日一二三四五六".split(''),
    numCn: '零一二三四五六七八九十'.split('')
  }

@@ -39,9 +39,8 @@ function getIPAdress() {
 var devPort = 8080
 portfinder.basePort = "8080"; //将我们默认的端口设置成8080，默认配置是8000
 portfinder.getPort(function(err, port) { //这个函数，portfinder会自动找到可用的端口
-  devPort = port; //我们把可以用的端口赋值给port.json里面
+  devPort = port; 
 });
-
 
 
 module.exports = {
@@ -49,6 +48,9 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: 'js/[name].js',
+  },
+  node: {
+    fs: 'empty'
   },
   module: {
     rules: [{
@@ -67,8 +69,17 @@ module.exports = {
       use: ExtractTextPlugin.extract({
         fallback: 'style-loader',
         use: ['css-loader', 'less-loader'],
-        publicPath: 'css'
+        publicPath: '../'
       })
+    },{
+      test: /\.(png|jpe?g|gif|svg)$/,
+      use:[{
+        loader: 'url-loader',
+        options: {
+          limit: 5000,
+          name: 'images/[name].[ext]'
+        }
+      }]
     }]
   },
   plugins: [
@@ -100,6 +111,7 @@ module.exports = {
       "window.jQuery": "jquery"
     })
   ],
+  stats:'minimal',
   devServer: {
     host: getIPAdress(),
     port: devPort,
@@ -128,6 +140,6 @@ glob.sync('./src/views/**/*.html').forEach(function(item) {
     inject: 'head',
     favicon: path.resolve('favicon.ico'),
     minify: true,
-    chunks: ['main', name]
+    chunks: ['template','main', name]
   }))
 })

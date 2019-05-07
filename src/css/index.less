@@ -1,3 +1,55 @@
+@charset "utf-8";
+// 配置文件
+@import 'config.less';
+// 样式库
+@import 'lib.less';
+// 公共组件
+@import 'components.less';
+// 动画库
+@import '../plugins/animate/animate.css';
+
+//=== 公共 Common START ===//
+/*#region 图标 */
+// 示例代码
+// .ic-arrow-down {
+//   .icon(13px, 8px, "ic-arrow-down.png");
+// }
+
+/*#endregion */
+
+//=== 公共 Common END ===//
+//=== 公共组件 START ===//
+
+/*#endregion */
+/*#region 公共表单 */
+
+/*#endregion */
+//=== 公共组件 END ===//
+
+//=== Index START ===//
+/*#region 主页 index */
+.test{
+  .fa{
+    .flex;
+    .flex_center;
+    .left{
+      .flex_1;
+      font-size: 80px;
+    }
+    .right{
+      font-size: 20px;
+    }
+  }
+}
+/*#endregion */
+//=== Index END ===//
+
 body{
   background-color: aqua;
+}
+.home{
+  font-size: 16px;
+}
+#btn{
+  font-size: 16px;
 }

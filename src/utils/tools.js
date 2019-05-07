@@ -170,5 +170,18 @@
     */
    getPureModel(data) {
      return JSON.parse(JSON.stringify(data));
-   }
+   },
+   /**
+    * 地址跳转
+    * @param {string} url 跳转地址
+    * @param {boolean} isReplace 是否保存本页历史记录
+    */
+   urlJump: function(url, isReplace) {
+     url = url || "/"
+     if (isReplace === true) {
+       window.location.replace(url);
+     } else {
+       window.location.href = url;
+     }
+   },
  }

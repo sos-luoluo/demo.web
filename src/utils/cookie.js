@@ -47,22 +47,22 @@
   * @property {function} del 删除方法
   * @property {function} clear 清除方法
   */
- const localStorage={
-  set:function(key,value){
-    const storage = window.localStorage;
-    storage && storage.removeItem(key);
-    storage && storage.setItem(key, value);
-  },
-  get:function(key){
-    const storage = window.localStorage;
-    return storage && storage.getItem(key);
-  },
-  del:function(key){
-    const storage = window.localStorage;
-    storage && storage.removeItem(key);
-  },
-  clear:function(){
-    const storage = window.localStorage;
-    storage.clear()
-  }
-}
+ const localStorage = {
+   set: function(key, value) {
+     const storage = window.localStorage;
+     storage && storage.removeItem(key);
+     storage && storage.setItem(key, value);
+   },
+   get: function(key) {
+     const storage = window.localStorage;
+     return storage && storage.getItem(key);
+   },
+   del: function(key) {
+     const storage = window.localStorage;
+     storage && storage.removeItem(key);
+   },
+   clear: function() {
+     const storage = window.localStorage;
+     storage.clear()
+   }
+ }

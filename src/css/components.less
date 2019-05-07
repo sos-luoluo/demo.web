@@ -5,8 +5,8 @@
 ***********************/
 
 //引用代码库
-@import "Lib.less";
-@import "Config.less";
+@import "config.less";
+@import "lib.less";
 
 //页面初始化
 // .Initialization();
@@ -39,7 +39,7 @@
     .icon-box {
       width: 100px;
       height: 100px;
-      background-image: url(../images/ajax-loading.gif);
+      background-image: url('../images/ajax-loading.gif');
       background-position: center;
       background-size: contain;
       background-repeat: no-repeat;
@@ -49,16 +49,17 @@
 }
 /*#endregion */
 /*#region ajaxLoading */
-.warning{
+.modal{
   .pop_wrap();
   .content{
     display: inline-block;
-    max-width: 80%;
+    max-width: 70%;
     width: 350px;
     padding: 10px 20px;
     border-radius: 10px;
     vertical-align: middle;
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
+    background-color: #fff;
     .title{
       padding: 5px 0;
       font-size: 16px;

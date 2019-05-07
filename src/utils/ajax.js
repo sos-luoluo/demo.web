@@ -1,4 +1,4 @@
- import { ajaxLoading, modal, tips } from 'components'
+ import { ajaxLoading, modal, tips, listStateChange } from 'components'
  import { key, ajaxConfig } from 'config'
 
  /**
@@ -111,9 +111,15 @@
      });
    }
  }
- export const ajax = new Ajax(ajaxConfig.urlHead, key.tokenKey)
+ const ajax = new Ajax(ajaxConfig.urlHead, key.tokenKey)
 
- class ListAjax {
+
+ /**
+  * 列表请求方法
+  * @constructor
+  * @param {object} options 配置
+  */
+ export class ListAjax {
    listState = 0
    pageTotal = 0
    config = {
@@ -137,7 +143,7 @@
        scrollBox: 'body',
        hasLoading: false,
        urlAuto: true,
-       url: '', 
+       url: '',
        data: {},
        dataType: 'json',
        type: 'POST',
@@ -146,15 +152,93 @@
        complete: undefined,
        pageIndex: 0,
      }, options)
-    $(this.config.scrollBox).scroll(function(e){
-      if($(this.config.el).find(":last").isOnScreen()){
-        this.send()
-      } 
-    })
+     this.bindEvent()
    }
-   send(){
-
+   send(pageIndex) {
+     if (this.listState !== 0) {
+       return
+     }
+     this.listState = 1
+     listStateChange(this.config.el, 1)
+     if (pageIndex && pageIndex <= this.pageTotal) {
+       this.config.pageIndex = pageIndex
+     } else {
+       this.config.pageIndex++
+     }
+     ajax.send({
+       id: this.config.el,
+       hasLoading: this.config.hasLoading,
+       urlAuto: this.config.urlAuto,
+       url: this.config.url,
+       type: this.config.type,
+       data: $.extend({
+         current: this.config.pageIndex,
+         size: this.config.pageSize
+       }, this.config.data),
+       dataType: this.config.dataType,
+       success: function(res) {
+         this.config.pageTotal = res.data.pages
+         listStateChange(this.config.el, 0)
+         if (this.config.pageTotal === 0) {
+           this.listState = 2
+         } else if (this.config.pageTotal === this.config.pageIndex) {
+           this.listState = 3
+         } else {
+           this.listState = 0
+         }
+         if (res.data.records.length > 0) {
+           var result = ""
+           if (this.config.result) {
+             result = this.config.result(res.data.records)
+           }
+           if (this.config.pageIndex === 1) {
+             $(this.config.el).html(result)
+           } else {
+             $(this.config.el).append(result)
+           }
+         }
+         listStateChange(setting.listState, this.config.el)
+         if (this.config.success) {
+           this.config.success(res)
+         }
+       },
+       fail: function(res) {
+         this.listState = 0
+         listStateChange.changeListState(this.listState, setting.el)
+         if (this.config.fail) {
+           this.config.fail(res)
+         }
+       },
+       complete: function(res) {
+         if (this.config.once) {
+           this.config.once(res)
+           delete this.config.once
+         }
+         if (this.config.complete) {
+           this.config.complete(res)
+         }
+       }
+     })
+   }
+   bindEvent() {
+     $(this.config.scrollBox).scroll((e) => {
+       if ($(this.config.el).find(":last").isOnScreen()) {
+         this.send()
+       }
+     })
+   }
+   changeData(data){
+    this.config.data=$.extend(true,this.config.data,data)
+   }
+   delData(name){
+    delete this.config.data[name]
+   }
+   changeURL(url){
+    this.config.url = url
+   }
+   refreshPage(){
+    this.config.listState = 0
+    this.config.pageIndex = 0
+    this.send()
    }
  }
-
- 

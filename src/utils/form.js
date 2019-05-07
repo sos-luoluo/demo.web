@@ -155,3 +155,26 @@ export function setData(options) {
     }
   }
 }
+
+
+export function verificationCodeTime(options){
+  const config = $.extend(
+    {
+      el: "",
+      time: 60,
+      text: "获取验证码"
+    },
+    options
+  );
+  config.$dom = $(config.el);
+  config.$dom.css({ "pointer-events": "none" });
+  const stopKey = setInterval(function() {
+    config.$dom.text(setting.time + "S");
+    if (config.time < 0) {
+      clearInterval(stopKey);
+      config.$dom.text(config.text);
+      config.$dom.css({ "pointer-events": "all" });
+    }
+    config.time--;
+  }, 1000);
+}

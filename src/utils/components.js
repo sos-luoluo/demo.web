@@ -61,15 +61,15 @@
      $("#tips").remove();
    }
    $("body").append(getHtml(text));
-   $("#tips .content").addClass("fadeInUp animated");
+   const $tips=$("#tips")
+   $tips.find(".content").addClass("fadeInUp animated");
    setTimeout(() => {
-     $("#tips").remove();
-     if (callBack) {
-       setTimeout(() => {
-         callBack()
-       }, 500)
-     }
-   })
+      $tips.find(".content").removeClass("fadeInUp").addClass("fadeOutDown");
+      setTimeout(() => {
+      $tips.remove();
+        callBack&&callBack()
+      }, 500)
+   },1500)
  }
 
  /**
@@ -94,14 +94,16 @@
      $('#modal').remove()
    }
    $("body").append(getHtml(setting.title, setting.content))
-   $('#modal').show()
-   $("#warning .left-btn").on("click", function() {
-     if (setting.confirm) {
-       setting.confirm();
+   const $modal=$('#modal')
+   $modal.show()
+
+   $modal.find(".left-btn").on("click", function() {
+     if (setting.success) {
+       setting.success();
      }
      hide()
    })
-   $("#warning .right-btn").on("click", function() {
+   $modal.find(".right-btn").on("click", function() {
      if (setting.fail) {
        setting.fail()
      }
