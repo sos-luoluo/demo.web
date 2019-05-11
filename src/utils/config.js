@@ -8,12 +8,12 @@
  /**
   * 项目执行环境
   */
- const environment = process.env.NODE_ENV
+ export const environment = process.env.NODE_ENV
 
  /**
   * 程序版本
   */
- const version = '0.1'
+ export const version = '0.1'
 
 
  /**
@@ -23,7 +23,7 @@
   * @property {string} fileUpload 文件上传地址
   * @property {string} loadingText loading显示的文字
   */
- const projectInfo = {
+ export const projectInfo = {
    nameCn: '',
    nameEn: ''
  }
@@ -36,7 +36,7 @@
   * @property {string} fileUpload 文件上传地址
   * @property {string} loadingText loading显示的文字
   */
- const ajaxConfig = {
+ export const ajaxConfig = {
    urlHead: environment === "development" ? "/api/v1" : "/api/v1",
    imgUpload: "",
    fileUpload: "",
@@ -48,7 +48,7 @@
   * @property {string} home 主页路径
   * @property {string} login 登录页面
   */
- const pageConfig = {
+export const pageConfig = {
    home: "/",
    login: "/login.html"
  }
@@ -58,7 +58,7 @@
   * @property {number} scale 标准页面比例
   * @property {string} scaleMode 缩放模式
   */
- const mobileConfig = {
+ export const mobileConfig = {
    ratio: 750 / 1210,
    scaleMode: 'contain'
  }
@@ -67,7 +67,7 @@
  /**
   * key配置
   */
- const key = {
+ export const key = {
    tokenKey: 'token'
  }
  

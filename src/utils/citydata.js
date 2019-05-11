@@ -1,4 +1,4 @@
-var cityData = [{
+export const cityData = [{
     value: '330000',
     text: '浙江省',
     children: [{ value: "-1", text: "全省" }, {

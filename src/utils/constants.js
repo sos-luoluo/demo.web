@@ -28,7 +28,7 @@
     * @property {array} week 星期字典库，可以用来处理星期显示格式
     * @property {array} numCn 中文数字字典库
     */
-   export const wordLib = {
+ export const wordLib = {
    int: numLib,
    char: characterLib,
    charAndNum: numLib.concat(characterLib),

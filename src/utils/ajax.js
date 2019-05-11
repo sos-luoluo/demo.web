@@ -1,5 +1,5 @@
- import { ajaxLoading, modal, tips, listStateChange } from 'components'
- import { key, ajaxConfig } from 'config'
+ import { ajaxLoading, modal, tips, listStateChange } from './components'
+ import { key, ajaxConfig } from './config'
 
  /**
   * ajax请求二次封装
@@ -21,7 +21,7 @@
    config = {
      id: undefined,
      hasLoading: false,
-     confirmTitle: undefined,
+     confirmText: undefined,
      url: '',
      urlAuto: true,
      type: 'POST',
@@ -29,20 +29,17 @@
      data: {},
      dataType: undefined,
      context: undefined,
-     processData: false, //序列化数据,formdata的时候需要false
-     success: undefined,
-     fail: undefined,
-     complete: undefined
+     processData: true, //序列化数据,formdata的时候需要false
    }
    constructor(urlHead, tokenKey) {
      this.urlHead = urlHead
      this.tokenKey = tokenKey
    }
-   confirm(callback) {
-     if (this.config.confirmTitle) {
+   confirm(confirmText, callback) {
+     if (confirmText) {
        modal({
          title: '确认',
-         content: this.config.confirmTitle,
+         content: confirmText,
          success: () => {
            callback && callback()
          }
@@ -51,68 +48,64 @@
        callback && callback()
      }
    }
-   lock(callback) {
-     if (this.config.id) {
-       if (!this.temp[this.config.id]) {
+   lock(id, callback) {
+     if (id) {
+       if (!this.temp[id]) {
          callback && callback()
        }
      } else {
        callback && callback()
      }
    }
-   send(options) {
-     this.config = $.extend({
-       hasLoading: false,
-       url: '',
-       urlAuto: true,
-       type: 'POST',
-       contentType: 'application/x-www-form-urlencoded',
-       data: {},
-       processData: false,
-     }, options)
-     this.config.url = this.config.urlAuto ? this.urlHead + this.config.url : this.config.url
-     delete this.config.urlAuto
-     if (this.config.id) {
-       this.lock(confirm(request()))
-     } else {
-       this.lock(confirm(request()))
-     }
-   }
-   request() {
-     if (this.config.hasLoading) {
-       ajaxLoading.show(ajaxConfig.loadingText);
-     }
-     $.ajax({
-       url: this.config.url,
-       type: this.config.type,
-       headers: this.config.headers,
-       contentType: this.config.contentType,
-       data: this.config.data,
-       dataType: this.config.dataType,
-       context: this,
-       processData: this.config.processData,
-       complete: (XHR, TS) => {
-         delete this.temp[this.config.id]
-         if (this.config.hasLoading) {
-           ajaxLoading.hide();
-         }
-         if (XHR.status === 200) {
-           if (XHR.responseJSON && XHR.responseJSON.code === 0) {
-             this.config.success(XHR.responseJSON);
-           } else {
-             this.config.fail(XHR.responseJSON);
-           }
-         } else {
-           tips("网络错误，请稍后再试");
-           this.config.fail();
-         }
-         this.config.complete(XHR.responseJSON)
-       }
-     });
+   request(options) {
+     const config = $.extend({}, this.config, options)
+     config.url = config.urlAuto ? this.urlHead + config.url : config.url
+     delete config.urlAuto
+     return new Promise((resolve,reject)=>{
+      if(config.id&&this.temp[id]){
+        reject({
+          msg: '加载中，请稍后'
+        })
+        return
+      }
+      this.confirm(config.confirmText,()=>{
+        if (config.hasLoading) {
+          ajaxLoading.show(ajaxConfig.loadingText);
+        }
+        $.ajax(config.url,{
+          contentType: config.contentType,
+          type: config.type,
+          headers: config.headers,
+          processData: false,
+          data: config.data,
+          dataType: config.dataType,
+          context: undefined,
+          processData: config.processData,
+          complete: (XHR, TS) => {
+            delete this.temp[config.id]
+            if (config.hasLoading) {
+              ajaxLoading.hide();
+            }
+            if (XHR.status === 200) {
+              if (XHR.responseJSON && XHR.responseJSON.code === 0) {
+                resolve(XHR.responseJSON)
+              } else {
+                reject(XHR.responseJSON)
+              }
+            } else {
+              tips("网络错误，请稍后再试");
+              reject({
+                msg: "网络错误，请稍后再试"
+              })
+            }
+          }
+        });
+      })
+     })
    }
  }
- const ajax = new Ajax(ajaxConfig.urlHead, key.tokenKey)
-
+ export const ajaxMain=new Ajax(ajaxConfig.urlHead, key.tokenKey)
+ export const ajax=(options)=>{return ajaxMain.request(options)} 
 
  /**
   * 列表请求方法
@@ -227,18 +220,18 @@
        }
      })
    }
-   changeData(data){
-    this.config.data=$.extend(true,this.config.data,data)
+   changeData(data) {
+     this.config.data = $.extend(true, this.config.data, data)
    }
-   delData(name){
-    delete this.config.data[name]
+   delData(name) {
+     delete this.config.data[name]
    }
-   changeURL(url){
-    this.config.url = url
+   changeURL(url) {
+     this.config.url = url
    }
-   refreshPage(){
-    this.config.listState = 0
-    this.config.pageIndex = 0
-    this.send()
+   refreshPage() {
+     this.config.listState = 0
+     this.config.pageIndex = 0
+     this.send()
    }
  }

@@ -13,8 +13,17 @@
   <body>
     <div class="page home" id="page">
       这是模板项目
-      <div id="list"></div>
-      <button id="btn">按钮测试</button>
+      <div id="form">
+        <input id="phone" type="number" placeholder="请输入手机号码" />
+        <div id="result"></div>
+      </div>
+      <button id="btn">查询手机号</button>
     </div>
+    <!-- 模板写在下面 -->
+    <script type="text/template" id="resultTemp">
+      <div>地区{{carrier}}</div>
+      <div>时间{{time|timeFormat,'yyyy-mm-dd hh:nn-ss'}}</div>
+    </script>
+    
   </body>
 </html>

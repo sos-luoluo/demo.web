@@ -109,6 +109,15 @@ module.exports = {
       $: "jquery",
       jQuery: "jquery",
       "window.jQuery": "jquery"
+    }),
+    // 首页需要单独配置
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: './src/index.html',
+      inject: 'head',
+      favicon: path.resolve('favicon.ico'),
+      minify: true,
+      chunks: ['main', 'index']
     })
   ],
   stats:'minimal',
@@ -135,11 +144,11 @@ glob.sync('./src/views/**/*.html').forEach(function(item) {
   var temp = filename.split('/')
   var name = temp[temp.length - 1].split('.')[0]
   module.exports.plugins.push(new HtmlWebpackPlugin({
-    filename: filename,
+    filename: 'views/'+ filename,
     template: item,
     inject: 'head',
     favicon: path.resolve('favicon.ico'),
     minify: true,
-    chunks: ['template','main', name]
+    chunks: ['main', name]
   }))
 })
