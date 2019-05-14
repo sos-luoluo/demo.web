@@ -118,7 +118,7 @@
   */
  export function listStateChange(el, state) {
    function getHtml(text) {
-     return '<div class="liststate-box" id="liststate"><div class="line"></div><div class="text-box"><div class="text">' + text + '</div></div></div>'
+     return '<div class="liststate-box" id="liststate"><div class="line"></div><div class="text-box"><div class="text">' + text + '</div></div><div class="line"></div>'
    }
    var $el = $(el)
    $el.find('#liststate').remove()

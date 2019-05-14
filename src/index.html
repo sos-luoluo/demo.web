@@ -18,12 +18,31 @@
         <div id="result"></div>
       </div>
       <button id="btn">查询手机号</button>
+      <div id="listbox" style="font-size: 20px;line-height: 2;"></div>
     </div>
     <!-- 模板写在下面 -->
     <script type="text/template" id="resultTemp">
       <div>地区{{carrier}}</div>
       <div>时间{{time|timeFormat,'yyyy-mm-dd hh:nn-ss'}}</div>
+      <div class="list">
+        {{each list as item,i}}
+        <div class="item">
+          <div class="id">{{item.id}}</div>
+          {{if item.id===3}}
+          <div>if语句</div>
+          {{/if}}
+          <div class="text">{{item.text}}</div>
+        </div>
+        {{/each}}
+      </div>
     </script>
-    
+    <script type="text/template" id="listboxTemp">
+      {{each list as item,i}}
+      <div>{{item.groupName}}</div>
+      <div>{{item.groupName}}</div>
+      <div>{{item.groupName}}</div>
+      <div>{{item.groupName}}</div>
+      {{/each}}
+    </script>
   </body>
 </html>

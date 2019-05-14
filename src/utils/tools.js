@@ -23,16 +23,16 @@
      const time = new Date(timestamp);
      const week = wordLib.week;
      const y = time.getFullYear();
-     const m = time.getMonth() + 1;
+     const M = time.getMonth() + 1;
      const d = time.getDate();
      const h = time.getHours();
-     const n = time.getMinutes();
+     const m = time.getMinutes();
      const s = time.getSeconds();
      format = format.replace(/[y]{4}/i, y);
-     format = format.replace(/[m]{2}/i, m > 9 ? m : "0" + m);
+     format = format.replace(/[m]{2}/i, M > 9 ? M : "0" + M)
      format = format.replace(/[d]{2}/i, d > 9 ? d : "0" + d);
      format = format.replace(/[h]{2}/i, h > 9 ? h : "0" + h);
-     format = format.replace(/[n]{2}/i, n > 9 ? n : "0" + n);
+     format = format.replace(/[n]{2}/i, m > 9 ? m : "0" + m);
      format = format.replace(/[s]{2}/i, s > 9 ? s : "0" + s);
      format = format.replace(/[w]{2}/i, week[time.getDay()]);
      return format;

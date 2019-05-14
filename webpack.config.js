@@ -13,7 +13,7 @@ var portfinder = require('portfinder'); //这个帮助我们寻找可用的端�
 // 动态配置入口
 function getEntry(){
   var entry={
-    main: './src/utils/main.js'
+    // main: './src/utils/main.js'
   }
   glob.sync('./src/js/*.js').forEach(function(item) {
     var temp = item.split('/')
@@ -128,12 +128,11 @@ module.exports = {
     overlay: true, //出现错误之后会在页面中出现遮罩层提示
     contentBase: path.resolve(__dirname, 'dist'), //最好设置成绝对路径
     proxy: {
-      // "/financial-shop-server/intf/h5": {
-      //   target:"https://hazqxdtest.moguyun.com",
-      //   //target:"http://10.26.20.170:8090",
-      //   secure: false,  // 如果是https接口，需要配置这个参数
-      //   changeOrigin: true
-      // }
+      "/qtv": {
+        target:"http://www.iquntv.com",
+        secure: true,  // 如果是https接口，需要配置这个参数
+        changeOrigin: true
+      }
     }
   }
 }
@@ -149,6 +148,6 @@ glob.sync('./src/views/**/*.html').forEach(function(item) {
     inject: 'head',
     favicon: path.resolve('favicon.ico'),
     minify: true,
-    chunks: ['main', name]
+    chunks: [name]
   }))
 })

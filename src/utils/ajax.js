@@ -61,51 +61,54 @@
      const config = $.extend({}, this.config, options)
      config.url = config.urlAuto ? this.urlHead + config.url : config.url
      delete config.urlAuto
-     return new Promise((resolve,reject)=>{
-      if(config.id&&this.temp[id]){
-        reject({
-          msg: '加载中，请稍后'
-        })
-        return
-      }
-      this.confirm(config.confirmText,()=>{
-        if (config.hasLoading) {
-          ajaxLoading.show(ajaxConfig.loadingText);
-        }
-        $.ajax(config.url,{
-          contentType: config.contentType,
-          type: config.type,
-          headers: config.headers,
-          processData: false,
-          data: config.data,
-          dataType: config.dataType,
-          context: undefined,
-          processData: config.processData,
-          complete: (XHR, TS) => {
-            delete this.temp[config.id]
-            if (config.hasLoading) {
-              ajaxLoading.hide();
-            }
-            if (XHR.status === 200) {
-              if (XHR.responseJSON && XHR.responseJSON.code === 0) {
-                resolve(XHR.responseJSON)
-              } else {
-                reject(XHR.responseJSON)
-              }
-            } else {
-              tips("网络错误，请稍后再试");
-              reject({
-                msg: "网络错误，请稍后再试"
-              })
-            }
-          }
-        });
-      })
+     return new Promise((resolve, reject) => {
+       if (config.id && this.temp[config.id]) {
+         reject({
+           msg: '加载中，请稍后'
+         })
+         return
+       }
+       this.confirm(config.confirmText, () => {
+         if (config.hasLoading) {
+           ajaxLoading.show(ajaxConfig.loadingText);
+         }
+         $.ajax(config.url, {
+           contentType: config.contentType,
+           type: config.type,
+           headers: config.headers,
+           processData: false,
+           data: config.data,
+           dataType: config.dataType,
+           context: undefined,
+           processData: config.processData,
+           complete: (XHR, TS) => {
+             delete this.temp[config.id]
+             if (config.hasLoading) {
+               ajaxLoading.hide();
+             }
+             if (XHR.status === 200) {
+               if (XHR.responseJSON && XHR.responseJSON.code === 0) {
+                 config.success && config.success(XHR.responseJSON)
+                 resolve(XHR.responseJSON)
+               } else {
+                 config.fail && config.fail(XHR.responseJSON)
+                 reject(XHR.responseJSON)
+               }
+             } else {
+               tips("网络错误，请稍后再试");
+               reject({
+                 msg: "网络错误，请稍后再试"
+               })
+             }
+             config.complete && config.complete(XHR.responseJSON)
+           }
+         });
+       })
      })
    }
  }
- export const ajaxMain=new Ajax(ajaxConfig.urlHead, key.tokenKey)
- export const ajax=(options)=>{return ajaxMain.request(options)} 
+ export const ajaxMain = new Ajax(ajaxConfig.urlHead, key.tokenKey)
+ export const ajax = (options) => { return ajaxMain.request(options) }
 
  /**
   * 列表请求方法
@@ -113,25 +116,13 @@
   * @param {object} options 配置
   */
  export class ListAjax {
-   listState = 0
-   pageTotal = 0
-   config = {
-     el: '#list',
-     scrollBox: 'body',
-     hasLoading: false,
-     urlAuto: true,
-     url: '',
-     data: {},
-     dataType: 'json',
-     type: 'POST',
-     success: undefined,
-     fail: undefined,
-     complete: undefined,
-     pageIndex: 0,
-     pageSize: 10
-   }
+
    constructor(options) {
+     this.listState = 0
+     this.pageTotal = 1
+
      this.config = $.extend({
+       id: options.el,
        el: '#list',
        scrollBox: 'body',
        hasLoading: false,
@@ -143,66 +134,34 @@
        success: undefined,
        fail: undefined,
        complete: undefined,
-       pageIndex: 0,
+       current: 0,
+       size: 10
      }, options)
+
      this.bindEvent()
    }
-   send(pageIndex) {
+   send(current) {
      if (this.listState !== 0) {
        return
      }
      this.listState = 1
      listStateChange(this.config.el, 1)
-     if (pageIndex && pageIndex <= this.pageTotal) {
-       this.config.pageIndex = pageIndex
+     if (current && current <= this.pageTotal) {
+       this.config.current = current
      } else {
-       this.config.pageIndex++
+       this.config.current++
      }
-     ajax.send({
-       id: this.config.el,
+     ajax({
        hasLoading: this.config.hasLoading,
        urlAuto: this.config.urlAuto,
        url: this.config.url,
        type: this.config.type,
        data: $.extend({
-         current: this.config.pageIndex,
-         size: this.config.pageSize
+         current: this.config.current,
+         size: this.config.size
        }, this.config.data),
        dataType: this.config.dataType,
-       success: function(res) {
-         this.config.pageTotal = res.data.pages
-         listStateChange(this.config.el, 0)
-         if (this.config.pageTotal === 0) {
-           this.listState = 2
-         } else if (this.config.pageTotal === this.config.pageIndex) {
-           this.listState = 3
-         } else {
-           this.listState = 0
-         }
-         if (res.data.records.length > 0) {
-           var result = ""
-           if (this.config.result) {
-             result = this.config.result(res.data.records)
-           }
-           if (this.config.pageIndex === 1) {
-             $(this.config.el).html(result)
-           } else {
-             $(this.config.el).append(result)
-           }
-         }
-         listStateChange(setting.listState, this.config.el)
-         if (this.config.success) {
-           this.config.success(res)
-         }
-       },
-       fail: function(res) {
-         this.listState = 0
-         listStateChange.changeListState(this.listState, setting.el)
-         if (this.config.fail) {
-           this.config.fail(res)
-         }
-       },
-       complete: function(res) {
+       complete: (res) => {
          if (this.config.once) {
            this.config.once(res)
            delete this.config.once
@@ -210,6 +169,37 @@
          if (this.config.complete) {
            this.config.complete(res)
          }
+       }
+     }).then((res) => {
+       this.pageTotal = res.data.pages
+       listStateChange(this.config.el, 0)
+       if (this.pageTotal === 0) {
+         this.listState = 2
+       } else if (this.pageTotal === this.config.current) {
+         this.listState = 3
+       } else {
+         this.listState = 0
+       }
+       if (res.data.records.length > 0) {
+         var result = ""
+         if (this.config.result) {
+           result = this.config.result(res.data.records)
+         }
+         if (this.config.current === 1) {
+           $(this.config.el).html(result)
+         } else {
+           $(this.config.el).append(result)
+         }
+       }
+       listStateChange(this.config.el,this.listState)
+       if (this.config.success) {
+         this.config.success(res)
+       }
+     }).catch((res) => {
+       this.listState = 0
+       listStateChange(this.config.el,this.listState)
+       if (this.config.fail) {
+         this.config.fail(res)
        }
      })
    }
@@ -231,7 +221,7 @@
    }
    refreshPage() {
      this.config.listState = 0
-     this.config.pageIndex = 0
+     this.config.current = 0
      this.send()
    }
  }
