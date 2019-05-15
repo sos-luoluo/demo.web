@@ -11,7 +11,6 @@ import {animateCss,isOnScreen} from './../utils/jqueryfn'
 // 模板工具辅助方法
 import {templateFn} from '../utils/templateFn'
 
-
 // 初始化jquery插件
 animateCss()
 isOnScreen()
@@ -22,8 +21,3 @@ templateFn()
 if(environment==='development'){
   new vConsole()
 }
-
-// 文档加载完毕再处理逻辑
-$(document).ready(function () {
-  pageLoading.show()
-});

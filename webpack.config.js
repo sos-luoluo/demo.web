@@ -14,6 +14,7 @@ var portfinder = require('portfinder'); //这个帮助我们寻找可用的端�
 function getEntry(){
   var entry={
     // main: './src/utils/main.js'
+    // worker: './src/utils/worker.js'
   }
   glob.sync('./src/js/*.js').forEach(function(item) {
     var temp = item.split('/')
@@ -41,7 +42,6 @@ portfinder.basePort = "8080"; //将我们默认的端口设置成8080，默认�
 portfinder.getPort(function(err, port) { //这个函数，portfinder会自动找到可用的端口
   devPort = port; 
 });
-
 
 module.exports = {
   entry: getEntry(),
@@ -117,7 +117,7 @@ module.exports = {
       inject: 'head',
       favicon: path.resolve('favicon.ico'),
       minify: true,
-      chunks: ['main', 'index']
+      chunks: ['index']
     })
   ],
   stats:'minimal',
@@ -148,6 +148,6 @@ glob.sync('./src/views/**/*.html').forEach(function(item) {
     inject: 'head',
     favicon: path.resolve('favicon.ico'),
     minify: true,
-    chunks: [name]
+    chunks: ['worker',name]
   }))
 })

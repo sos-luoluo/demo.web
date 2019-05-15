@@ -352,3 +352,94 @@ export function getFile(url, callBack) {
   };
   XHR.send();
 }
+
+/**
+ * 多线程管理器
+ * @overview 创建多线程管理器，用于处理复杂的数据
+ * @constructor
+ * @param {function} init 初始化方法
+ * @param {function} sendData 发送数据方法
+ * @param {function} packageData 包装数据方法
+ * @param {function} analysisData 解析数据方法
+ * @param {function} handle 解析事务方法
+ * @param {function} terminate 关闭多线程方法
+ */
+export class WorkerManage{
+  constructor(options){
+    this.config=Object.assign({
+      version: '0.1',
+      url: './js/worker.js',
+      name: 'app',
+      to: 'worker',
+      handle: {}
+    },options)
+    this.init()
+  }
+  init(){
+    this.worker=new Worker(this.config.url)
+    this.worker.onmessage=(data)=>{
+      this.analysisData(data.data)
+    }
+  }
+  sendData(data){
+    if (!this.worker) {
+      this.init()
+    } 
+    this.worker.postMessage(data)
+  }
+  packageData(data){
+    let message = {
+      version: this.config.version,
+      timestamp: new Date().getTime(),
+      from: this.config.name,
+      to: this.config.to,
+      key: data.key,
+      handle: data.data
+    }
+    this.sendData(message)
+  }
+  analysisData(result){
+    try {
+      if (result.to !== this.config.name) {
+        throw new Error('name error')
+        return
+      }
+      if (new Date().getTime() - result.timestamp > 60000) {
+        throw new Error('time out')
+        return
+      }
+      if (!this.config.handle[result.key]) {
+        throw new Error('handle missing')
+        return
+      }
+      if (result.data.code === 0) {
+        this.config.handle[result.key](result.data.data)
+      } else {
+        throw new Error('handle error')
+        return
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }
+  handle(){
+    let key = Math.random()
+    let name = arguments[0]
+    let data = arguments.length === 3 ? arguments[1] : {}
+    let callback = arguments.length === 3 ? arguments[2] : arguments[1]
+    if (typeof callback === 'function') {
+      this.config.handle[key] = callback
+    }
+    this.packageData({
+      data: {
+        name: name,
+        data: data,
+      },
+      key: key
+    })
+  }
+  terminate(){
+    this.worker.terminate()
+    this.worker = undefined
+  }
+}

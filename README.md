@@ -17,19 +17,49 @@
 # 开发
 
 ## HTML
-- 待补充
+- index页面位置请勿移动，其余页面放入views文件夹即可
+- HTML页面名字不能重复
 
 ## CSS
-- 待补充
+- 样式文件写在index.less里即可
+- lib已封装常用的样式，可以直接使用
 
 ## 数据与事件绑定
-- 待补充
+- 页面加载过程一般有一个数据渲染和事件绑定的过程，在这些事情完成之后才会显示整个页面
+- 数据绑定和事件绑定要返回一个Promise，用来控制加载进程
+- 数据绑定可以将事件绑定所需要的参数通过Promise传递过去
+- 事件绑定请尽量采用代理的方式
 
 # 发布
 
 - npm run build
+- 将dist目录文件拷贝到项目目录即可
 
 # 文档
+
+## ajax 请求方法
+
+## base 基础方法
+
+## components 组件
+
+## config 配置文件
+
+## constants 静态数据
+
+## cookie 缓存的操作方法
+
+## form 表单操作方法
+
+## jqueryfn jQuery插件
+
+## mobile H5页面相关方法
+
+## templateFn 模板工具辅助方法注册
+
+## tools 工具
+
+## worker JS多线程支持方法
 
 # License
 
