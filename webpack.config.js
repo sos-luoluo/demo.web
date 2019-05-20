@@ -96,10 +96,6 @@ module.exports = {
       {
         from: 'plugins',
         to: 'plugins'
-      },
-      {
-        from: 'Manifest.appcache',
-        to: ''
       }
     ], {
       context: 'src/'
@@ -120,6 +116,29 @@ module.exports = {
       chunks: ['index']
     })
   ],
+  optimization: {
+    splitChunks: {
+      chunks: 'async',
+      minSize: 30000,
+      maxSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      automaticNameDelimiter: '~',
+      name: true,
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10
+        },
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors",
+          chunks: "all"
+        }
+      }
+    }
+  },
   stats:'minimal',
   devServer: {
     host: getIPAdress(),

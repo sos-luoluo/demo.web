@@ -2,8 +2,6 @@
 import './../css/index.less' 
 // 引入配置文件
 import {environment} from './config'
-// 引入页面组件
-import {pageLoading} from './components'
 // 手机调试插件
 import vConsole from 'vconsole'
 // 引入jquery插件

@@ -1,7 +1,7 @@
 // 引入公共文件
 import '../utils/main'
 // UI组件
-import { pageLoading, tips, modal, listStateChange } from '../utils/components'
+import { pageLoading, tips, modal } from '../utils/components'
 // 静态数据
 import { regular } from '../utils/constants'
 // ajax方法
@@ -22,6 +22,7 @@ $(document).ready(() => {
  */
 function bindData() {
   return new Promise((resolve, reject) => {
+    
     resolve()
   })
 }

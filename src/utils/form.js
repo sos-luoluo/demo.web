@@ -156,7 +156,11 @@ export function setData(options) {
   }
 }
 
-
+/**
+ * 验证码计时器
+ * @param {object} options 配置信息
+ * @param {string} el jquery选择器
+ */
 export function verificationCodeTime(options){
   const config = $.extend(
     {

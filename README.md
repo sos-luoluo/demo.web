@@ -2,6 +2,7 @@
 - Demo是一个网站开发的解决方案，它易于使用和部署。对于刚入门的人员来说是一个非常好的方案。它集成了jquery、juicer、众多的工具方法等。对于不使用vue等框架的开发人员，希望本项目能帮助到你。
 - 本项目不支持低版本浏览器。
 - 本项目不适用于二次开发。
+- Manifest.appcache文件请依据项目实际情况进行配置，文件不会被主动打包到dist里，如要使用，请复制到项目跟目录下即可
 
 # 安装
 
@@ -39,7 +40,55 @@
 
 ## ajax 请求方法
 
+### ajax
+- 这是在jQuery ajax基础上进行二次封装的，请求支持success、fail回调，同时也会返回一个Promise,所以支持then、catch写法
+- 参数除了jQuery ajax原本的逻辑外，封装了token，新增了几个参数：
+1、id，当指定某个id时，这个请求会被锁定，只有请求完成后才会解锁，可以防止重复请求
+2、hasLoading，ajax loading开关
+3、confirmText，此值被指定是，会弹出一个确认信息，只有当用户点击确认后才会发送请求
+### ListAjax
+- 这个是一个列表请求方法，常用于列表请求使用，内部已经实现了滑动到底部自动加载，
+- 除了常规的及个参数外，额外封装的参数有：
+1、el：要使用列表渲染的元素，一般是列表包裹层
+2、scrollBox：要监听的滚动元素，用于自动加载数据
+- changeData：改变请求参数的方法，同名参数会被覆盖
+- delData：删除某个参数方法
+- changeURL：改变请求地址方法
+
 ## base 基础方法
+
+### extend
+- 合并对象方法，第一个参数传true的时候会执行深度合并
+
+### isArray
+- 判断一个对象是否为数组
+
+### Deferred
+- 延迟对象，使用方法同$.Deferred
+
+### deferredAll
+- 将多个延迟对象封装为一个
+
+### random
+- 随机数算法，可以自定义种子
+
+### guid
+- guid生成器
+
+### serialize
+- 序列化数据，在ajax中，某些时候需要手动序列化数据
+
+### convertTree
+- 列表数据转化为树形结构数据
+
+### base64
+- base64数据处理方法
+
+### getFile
+- 获取文件并转换为Blob对象
+
+### WorkerManage
+- WorkerManage多线程管理器，一般用不到
 
 ## components 组件
 

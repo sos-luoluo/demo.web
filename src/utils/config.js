@@ -20,8 +20,6 @@
   * 项目配置
   * @property {string} nameCn 项目中文名字
   * @property {string} nameEn 项目英文名字
-  * @property {string} fileUpload 文件上传地址
-  * @property {string} loadingText loading显示的文字
   */
  export const projectInfo = {
    nameCn: '',
