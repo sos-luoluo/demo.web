@@ -422,11 +422,15 @@ export class WorkerManage{
       console.error(e)
     }
   }
-  handle(){
+  /**
+   * 发送任务
+   * @constructor
+   * @param {string} name 调起的业务名称
+   * @param {object} data 传递的参数
+   * @param {function} callback 回调函数
+   */
+  handle(name,data={},callback){
     let key = Math.random()
-    let name = arguments[0]
-    let data = arguments.length === 3 ? arguments[1] : {}
-    let callback = arguments.length === 3 ? arguments[2] : arguments[1]
     if (typeof callback === 'function') {
       this.config.handle[key] = callback
     }

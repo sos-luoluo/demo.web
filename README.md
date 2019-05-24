@@ -88,13 +88,59 @@
 - 获取文件并转换为Blob对象
 
 ### WorkerManage
-- WorkerManage多线程管理器，一般用不到
+- WorkerManage多线程管理器，处理大量数据时可以考虑启用多线程处理，请配合work.js使用。
+- handle：调用work里已注册函数的方法
 
 ## components 组件
 
+### pageLoading
+- 整个页面loading的控制方法
+
+### ajaxLoading
+- ajax请求loading的控制方法
+
+### tips
+- 显示一个提示信息，2s后消失
+
+### modal
+- 确认信息弹窗，可以绑定回调函数
+
+### listStateChange
+- 列表状态控制方法,请勿单独使用
+
 ## config 配置文件
 
+### environment
+- 项目环境配置，直接获取的webpack的配置
+
+### version
+- 程序版本控制
+
+### projectInfo
+- 项目配置
+
+### ajaxConfig
+- ajax请求相关配置
+
+### pageConfig
+- 页面配置
+
+### mobileConfig
+- H5移动端配置
+
+### key
+- key配置
+
 ## constants 静态数据
+
+### NPCInfo
+- 默认用户配置
+
+### wordLib
+- 字典库
+
+### regular
+- 正则表达式，如有需要可以增加
 
 ## cookie 缓存的操作方法
 
