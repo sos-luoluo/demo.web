@@ -1,6 +1,6 @@
 import { ajaxLoading, modal, tips, listStateChange } from "./components";
 import { key, ajaxConfig } from "./config";
-import { localStorage } from "./localStorage";
+import { localStorage } from "./cookie";
 
 /**
  * ajax请求二次封装
