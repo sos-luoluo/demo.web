@@ -144,13 +144,39 @@
 
 ## cookie 缓存的操作方法
 
+### cookie
+- set： 设置cookie方法
+- get： 获取cookie方法
+- del： 删除cookie方法
+
+### localStorage
+- set： 设置缓存方法
+- get： 获取缓存方法
+- del： 删除缓存方法
+- clear： 清空缓存方法
+
 ## form 表单操作方法
 
+- 表单操作方法是获取表单数据、验证表单数据格式、设置表单数据的方法。使用该方法需要在表单中定义form-key(后台接受字段),form-name(字段名称),form-rule(验证规则，require表示必填)
+- getData: 获取表单数据的方法，只有数据格式验证通过才能真正获取到数据
+- setData： 设置表单数据的方法，不会验证数据格式
+- verificationCodeTime： 表单中验证码的控制方法
+
 ## jqueryfn jQuery插件
+- jQuery插件请在这里注册
+- animateCss： animate动画插件
+- isOnScreen： 判断元素是否在屏幕内的方法
 
 ## mobile H5页面相关方法
+- 当网页运行于手机等移动端时，需要做一些配置
+- setPageSize： 设置页面尺寸，会初始化rem值，页面大小宽度等
+- pageCtrl：这是一个自己封装的H5页面栈进出的控制方法，如果需要配合animate实现切换的动画效果，如果有问题，可以使用swiper,效果会更好些
 
 ## templateFn 模板工具辅助方法注册
+- 由于art-template不兼容最新的nodejs，已弃用，目前项目用juicer
+- juicer的过滤器需要在这里注册使用，项目中已注册了两个方法
+- timeFormat：时间格式化
+- priceformat：价格格式化
 
 ## tools 工具
 
