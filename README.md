@@ -180,8 +180,29 @@
 - priceformat：价格格式化
 
 ## tools 工具
+- timeFormat：时间格式化方法
+- dateFormat： 日期转化为指定的时间格式
+- priceFormat： 价格处理方法
+- doubleDigit： 补全两位数字方法
+- onlyOneImg： 将逗号分隔的图片数据转化为列表并取第一条数据
+- randomChars： 返回随机字符串
+- timeIntervalChange： 时间转化为天时分秒
+- timeAgo： 时间转化为几分钟、几小时之前
+- getUrlParam： 获取url参数的方法
+- changeLog： 数据进制转化
+- getPureModel： 获取纯净的数据
+- urlJump： 地址跳转方法
 
 ## worker JS多线程支持方法
+
+### Communications
+- 这是网络控制层，如有需要可以加入一些验证数据的方法，一般不用改动
+
+### Transaction
+- 事务处理层，缓存事务，接受网络层的指令并将处理结果返回到网络层
+
+### 应用层
+- 这里调用transaction的注册方法，将业务注册到事务处理层即可
 
 # License
 

@@ -135,7 +135,7 @@
     * @param {string} name 参数名称
     */
    getUrlParam: function(url, name) {
-     const reg = new RegExp("(^|&?)" + name + "=([^&]*)(&|$)");
+     const reg = new RegExp("(^|&?)" + name + "=([^&#]*)(&|$)");
      const r = url.match(reg);
      if (r != null) {
        return unescape(r[2]);
