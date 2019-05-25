@@ -22,7 +22,6 @@ $(document).ready(() => {
  */
 function bindData() {
   return new Promise((resolve, reject) => {
-    
     resolve()
   })
 }
