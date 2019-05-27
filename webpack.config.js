@@ -1,14 +1,14 @@
 var webpack = require('webpack')
-var path = require('path'); //引入nodejs路径模块，处理路径用的
-var glob = require('glob'); //glob，这个是一个全局的模块
-var HtmlWebpackPlugin = require('html-webpack-plugin'); //这个是通过html模板生成html页面的插件
-var CleanWebpackPlugin = require('clean-webpack-plugin'); //清除dist貌似没有
-var CopyWebpackPlugin = require('copy-webpack-plugin'); //复制文件插件
+var path = require('path') //引入nodejs路径模块，处理路径用的
+var glob = require('glob') //glob，这个是一个全局的模块
+var HtmlWebpackPlugin = require('html-webpack-plugin') //这个是通过html模板生成html页面的插件
+var CleanWebpackPlugin = require('clean-webpack-plugin') //清除dist貌似没有
+var CopyWebpackPlugin = require('copy-webpack-plugin') //复制文件插件
 var MiniCssExtractPlugin = require('mini-css-extract-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var autoprefixer = require('autoprefixer')
-var os = require('os'); //这个nodejs模块，会帮助我们获取本机ip
-var portfinder = require('portfinder'); //这个帮助我们寻找可用的端口，如果默认端口被占用了的话
+var os = require('os') //这个nodejs模块，会帮助我们获取本机ip
+var portfinder = require('portfinder') //这个帮助我们寻找可用的端口，如果默认端口被占用了的话
 
 // 动态配置入口
 function getEntry(){
