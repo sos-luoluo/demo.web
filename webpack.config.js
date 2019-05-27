@@ -113,7 +113,7 @@ module.exports = {
       inject: 'head',
       favicon: path.resolve('favicon.ico'),
       minify: true,
-      chunks: ['index']
+      chunks: ['vendors','index']
     })
   ],
   optimization: {
@@ -167,6 +167,6 @@ glob.sync('./src/views/**/*.html').forEach(function(item) {
     inject: 'head',
     favicon: path.resolve('favicon.ico'),
     minify: true,
-    chunks: ['worker',name]
+    chunks: ['vendors',name]
   }))
 })

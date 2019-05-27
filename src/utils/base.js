@@ -9,16 +9,16 @@ import { getCiphers } from "crypto";
 
 /**
  * 合并对象，以第一个有效对象为基础进行合并
- * @param {boolean} mode 是否深度合并
+ * @param {boolean} mode 是否深度合并,可选
  * @param {object} obj 待合并对象数组
  */
 export function extend() {
   if (typeof arguments[0] === "boolean" && arguments[0] === true) {
     for (let k = 1; k < arguments.length; k++) {
-      if (typeof arguments[k] === 'object') {
+      if (typeof arguments[k] === "object") {
         if (!result) {
-          var result = arguments[k]
-          continue
+          var result = arguments[k];
+          continue;
         }
         for (var key in arguments[k]) {
           if (typeof arguments[k][key] === "object") {
@@ -31,12 +31,11 @@ export function extend() {
     }
   } else {
     for (let i = 0; i <= arguments.length; i++) {
-      if (typeof arguments[i] === 'object') {
+      if (typeof arguments[i] === "object") {
         if (!result) {
-          var result = arguments[i]
-          continue
+          var result = arguments[i];
+          continue;
         }
-
 
         for (const key in arguments[i]) {
           if (arguments[i][key]) {
@@ -44,10 +43,9 @@ export function extend() {
           }
         }
       }
-
     }
   }
-  return result
+  return result;
 }
 
 /**
@@ -55,7 +53,13 @@ export function extend() {
  * @param {object} obj 对象
  */
 export function isArray(obj) {
-  return obj && typeof obj === "object" && typeof obj.length === "number" && typeof obj.splice === "function" && !obj.propertyIsEnumerable("length")
+  return (
+    obj &&
+    typeof obj === "object" &&
+    typeof obj.length === "number" &&
+    typeof obj.splice === "function" &&
+    !obj.propertyIsEnumerable("length")
+  );
 }
 
 /**
@@ -69,26 +73,26 @@ export function isArray(obj) {
  * @property {function} then 绑定完成回调
  */
 export class Deferred {
-  state = undefined
-  param = undefined
-  doneFn = []
-  failFn = []
-  thenFn = []
+  state = undefined;
+  param = undefined;
+  doneFn = [];
+  failFn = [];
+  thenFn = [];
   constructor() {
-    this.state = 0
+    this.state = 0;
   }
   resolve() {
     if (this.state === 0) {
-      this.state === 2
-      this.param = arguments
+      this.state === 2;
+      this.param = arguments;
     }
-    this.check()
+    this.check();
   }
   reject() {
     if (this.state === 0) {
       this.state = 1;
-      this.param = arguments
-      this.check()
+      this.param = arguments;
+      this.check();
     }
   }
   done(method) {
@@ -123,26 +127,25 @@ export class Deferred {
   }
 }
 
-
 /**
  * 将多个延迟对象封装成一个
  * @param {Deferred} 延迟对象
  */
 export function deferredAll() {
-  const def = new Deferred()
-  const result = []
-  let state = true
-  let length = arguments.length
+  const def = new Deferred();
+  const result = [];
+  let state = true;
+  let length = arguments.length;
   for (let item of arguments) {
     item.done(function(res) {
-      result.push(res)
-      checked()
-    })
+      result.push(res);
+      checked();
+    });
     item.fail(function(res) {
-      result.push(res)
-      state = false
-      checked()
-    })
+      result.push(res);
+      state = false;
+      checked();
+    });
   }
 
   function checked() {
@@ -154,7 +157,7 @@ export function deferredAll() {
       }
     }
   }
-  return def
+  return def;
 }
 
 /**
@@ -171,61 +174,79 @@ export function random(seed) {
  */
 export function guid() {
   function getChat() {
-    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
+    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
   }
-  return (getChat() + getChat() + "-" + getChat() + "-" + getChat() + "-" + getChat() + "-" + getChat() + getChat() + getChat())
+  return (
+    getChat() +
+    getChat() +
+    "-" +
+    getChat() +
+    "-" +
+    getChat() +
+    "-" +
+    getChat() +
+    "-" +
+    getChat() +
+    getChat() +
+    getChat()
+  );
 }
 
 /**
- * 序列化数据用于Ajax,数据会被转换为key/value形式
+ * 序列化数据用于Ajax,数据会被转换为key/value形式的formData对象
  * @param {Array|object} data 原始数据
  * @returns {object} formData
  */
 export function serialize(data) {
-  const formData = new FormData()
+  const formData = new FormData();
 
   function conversion(data, name) {
-    const isFirst = name === "" || name === undefined || name === null
+    const isFirst = name === "" || name === undefined || name === null;
     for (let item in data) {
       if (typeof data[item] === "object") {
-        conversion(data[item], isFirst ? item : name + "[" + item + "]")
+        conversion(data[item], isFirst ? item : name + "[" + item + "]");
       } else {
-        formData.append(isFirst ? item : name + "[" + item + "]", data[item])
+        formData.append(isFirst ? item : name + "[" + item + "]", data[item]);
       }
     }
   }
-  conversion(data, "")
-  return formData
+  conversion(data, "");
+  return formData;
 }
 
 /**
  * 将列表数据转化为树状结构数据
  * @param {Array} treeList 原始数据
  * @param {object} treeConfig 配置
+ * @param {number|string} rootID 根节点的值
+ * @param {string} Fkey 子节点指向父节点Id的key
+ * @param {string} Fid 节点ID的key
+ * @param {string} Skey 生成子节点的key
  */
 export function convertTree(treeList, treeConfig) {
-  const setting = $.extend({
-      rootID: 0, //根节点的值
-      Fkey: "fcode", //子节点指向父节点的key
-      Fid: "id", //父节点的key
-      Skey: "children" //生成子节点名字
+  const setting = $.extend(
+    {
+      rootID: 0,
+      Fkey: "fcode",
+      Fid: "id",
+      Skey: "children"
     },
     treeConfig
-  )
+  );
 
   function querySon(condition) {
     const temp = [];
     for (let i = 0; i < treeList.length; i++) {
       if (treeList[i][setting.Fkey] === condition) {
-        temp.push(treeList.splice(i, 1)[0])
-        i--
+        temp.push(treeList.splice(i, 1)[0]);
+        i--;
       }
     }
     if (temp.length > 0) {
       for (let j = 0; j < temp.length; j++) {
-        const result = querySon(temp[j][setting.Fid])
+        const result = querySon(temp[j][setting.Fid]);
         if (result.length > 0) {
-          temp[j][setting.Skey] = result
+          temp[j][setting.Skey] = result;
         }
       }
     }
@@ -234,14 +255,18 @@ export function convertTree(treeList, treeConfig) {
   return querySon(setting.rootID);
 }
 
-const _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
-  /**
-   * base64数据数据加解密方法
-   * @property {function} encode 加密方法
-   * @property {function} decode 解密方法
-   */
+const _keyStr =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+/**
+ * base64数据数据加解密方法
+ * @property {function} encode 加密方法
+ * @property {function} decode 解密方法
+ */
 export const base64 = {
-  // public method for encoding
+  /**
+   * 加密方法
+   * @property {string} input 加密内容
+   */
   encode: function(input) {
     var output = "";
     var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
@@ -260,11 +285,19 @@ export const base64 = {
       } else if (isNaN(chr3)) {
         enc4 = 64;
       }
-      output = output + _keyStr.charAt(enc1) + _keyStr.charAt(enc2) + _keyStr.charAt(enc3) + _keyStr.charAt(enc4);
+      output =
+        output +
+        _keyStr.charAt(enc1) +
+        _keyStr.charAt(enc2) +
+        _keyStr.charAt(enc3) +
+        _keyStr.charAt(enc4);
     }
     return output;
   },
-  // public method for decoding
+  /**
+   * 解密方法
+   * @property {string} input 解密内容
+   */
   decode: function(input) {
     var output = "";
     var chr1, chr2, chr3;
@@ -298,7 +331,7 @@ export const base64 = {
       var c = string.charCodeAt(n);
       if (c < 128) {
         utftext += String.fromCharCode(c);
-      } else if ((c > 127) && (c < 2048)) {
+      } else if (c > 127 && c < 2048) {
         utftext += String.fromCharCode((c >> 6) | 192);
         utftext += String.fromCharCode((c & 63) | 128);
       } else {
@@ -313,26 +346,28 @@ export const base64 = {
   _utf8_decode: function(utftext) {
     var string = "";
     var i = 0;
-    var c = c1 = c2 = 0;
+    var c = (c1 = c2 = 0);
     while (i < utftext.length) {
       c = utftext.charCodeAt(i);
       if (c < 128) {
         string += String.fromCharCode(c);
         i++;
-      } else if ((c > 191) && (c < 224)) {
+      } else if (c > 191 && c < 224) {
         c2 = utftext.charCodeAt(i + 1);
         string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
         i += 2;
       } else {
         c2 = utftext.charCodeAt(i + 1);
         c3 = utftext.charCodeAt(i + 2);
-        string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+        string += String.fromCharCode(
+          ((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63)
+        );
         i += 3;
       }
     }
     return string;
   }
-}
+};
 
 /**
  * 文件获取方法
@@ -347,7 +382,7 @@ export function getFile(url, callBack) {
   XHR.onload = function(oEvent) {
     const content = XHR.response;
     if (callBack) {
-      callBack(new Blob([content]))
+      callBack(new Blob([content]));
     }
   };
   XHR.send();
@@ -364,30 +399,42 @@ export function getFile(url, callBack) {
  * @param {function} handle 解析事务方法
  * @param {function} terminate 关闭多线程方法
  */
-export class WorkerManage{
-  constructor(options){
-    this.config=Object.assign({
-      version: '0.1',
-      url: './js/worker.js',
-      name: 'app',
-      to: 'worker',
-      handle: {}
-    },options)
-    this.init()
+export class WorkerManage {
+  constructor(options) {
+    this.config = Object.assign(
+      {
+        version: "0.1",
+        url: "./js/worker.js",
+        name: "app",
+        to: "worker",
+        handle: {}
+      },
+      options
+    );
+    this.init();
   }
-  init(){
-    this.worker=new Worker(this.config.url)
-    this.worker.onmessage=(data)=>{
-      this.analysisData(data.data)
-    }
+  /**
+   * 初始化方法，会根据配置初始化一个多线程
+   */
+  init() {
+    this.worker = new Worker(this.config.url);
+    this.worker.onmessage = data => {
+      this.analysisData(data.data);
+    };
   }
-  sendData(data){
+  /**
+   * 发送数据方法
+   */
+  sendData(data) {
     if (!this.worker) {
-      this.init()
-    } 
-    this.worker.postMessage(data)
+      this.init();
+    }
+    this.worker.postMessage(data);
   }
-  packageData(data){
+  /**
+   * 打包数据方法
+   */
+  packageData(data) {
     let message = {
       version: this.config.version,
       timestamp: new Date().getTime(),
@@ -395,31 +442,34 @@ export class WorkerManage{
       to: this.config.to,
       key: data.key,
       handle: data.data
-    }
-    this.sendData(message)
+    };
+    this.sendData(message);
   }
-  analysisData(result){
+  /**
+   * 解析返回的数据
+   */
+  analysisData(result) {
     try {
       if (result.to !== this.config.name) {
-        throw new Error('name error')
-        return
+        throw new Error("name error");
+        return;
       }
       if (new Date().getTime() - result.timestamp > 60000) {
-        throw new Error('time out')
-        return
+        throw new Error("time out");
+        return;
       }
       if (!this.config.handle[result.key]) {
-        throw new Error('handle missing')
-        return
+        throw new Error("handle missing");
+        return;
       }
       if (result.data.code === 0) {
-        this.config.handle[result.key](result.data.data)
+        this.config.handle[result.key](result.data.data);
       } else {
-        throw new Error('handle error')
-        return
+        throw new Error("handle error");
+        return;
       }
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
   }
   /**
@@ -429,21 +479,24 @@ export class WorkerManage{
    * @param {object} data 传递的参数
    * @param {function} callback 回调函数
    */
-  handle(name,data={},callback){
-    let key = Math.random()
-    if (typeof callback === 'function') {
-      this.config.handle[key] = callback
+  handle(name, data = {}, callback) {
+    let key = Math.random();
+    if (typeof callback === "function") {
+      this.config.handle[key] = callback;
     }
     this.packageData({
       data: {
         name: name,
-        data: data,
+        data: data
       },
       key: key
-    })
+    });
   }
-  terminate(){
-    this.worker.terminate()
-    this.worker = undefined
+  /**
+   * 关闭多线程任务
+   */
+  terminate() {
+    this.worker.terminate();
+    this.worker = undefined;
   }
 }

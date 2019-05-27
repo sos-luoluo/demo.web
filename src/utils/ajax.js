@@ -193,30 +193,30 @@ export class ListAjax {
    * @param {number} size 列表大小
    */
   constructor(options) {
-      this.listState = 0;
-      this.pageTotal = 1;
+    this.listState = 0;
+    this.pageTotal = 1;
 
-      this.config = $.extend({
-          id: options.el,
-          el: "#list",
-          scrollBox: "body",
-          hasLoading: false,
-          urlAuto: true,
-          url: "",
-          data: {},
-          dataType: "json",
-          type: "POST",
-          success: undefined,
-          fail: undefined,
-          complete: undefined,
-          current: 0,
-          size: 10
-        },
-        options
-      );
+    this.config = $.extend({
+        id: options.el,
+        el: "#list",
+        scrollBox: "body",
+        hasLoading: false,
+        urlAuto: true,
+        url: "",
+        data: {},
+        dataType: "json",
+        type: "POST",
+        success: undefined,
+        fail: undefined,
+        complete: undefined,
+        current: 0,
+        size: 10
+      },
+      options
+    );
 
-      this.bindEvent();
-    }
+    this.bindEvent();
+  }
   /**
    * 发送请求方法
    * @param {number} current 可选，页码

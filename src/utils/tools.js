@@ -97,7 +97,7 @@
    },
    /**
     * 时间转化为指定天时分秒
-    * @param {number} time 时间
+    * @param {number} time 时间单位为秒
     * @param {string} format 输出格式
     */
    timeIntervalChange: function(time, format) {
@@ -130,12 +130,12 @@
      }
    },
    /**
-    * 获取url参数
+    * 获取url参数,前面的正则存在bug，本次修复了这个bug
     * @param {string} url url地址
     * @param {string} name 参数名称
     */
    getUrlParam: function(url, name) {
-     const reg = new RegExp("(^|&?)" + name + "=([^&#]*)(&|$)");
+     const reg = new RegExp("(^|[&|?])" + name + "=([^&#]*)(&|$)");
      const r = url.match(reg);
      if (r != null) {
        return unescape(r[2]);

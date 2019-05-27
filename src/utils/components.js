@@ -75,6 +75,10 @@
  /**
   * 确认弹窗
   * @param {object} options 配置信息
+  * @param {string} title 标题
+  * @param {string} content 提示内容
+  * @param {function} success 确认回调
+  * @param {function} fail 取消回调
   */
  export function modal(options) {
    function getHtml(title, content) {

@@ -1,5 +1,4 @@
  import tools from './tools'
-//  import artTemplate from 'art-template'
 import juicer from 'juicer'
  /**
   * template方法注册
@@ -7,12 +6,6 @@ import juicer from 'juicer'
   * @author [luoluo]
   * @version 2.0.0
   */
-
-  // export function templateFn(){
-  //   artTemplate.defaults.imports.dateFormat=tools.timeFormat
-  //   artTemplate.defaults.imports.priceformat=tools.priceFormat
-  // }
-
   export function templateFn(){
     // 防止冲突，自定义边界
     juicer.set({

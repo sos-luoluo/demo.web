@@ -64,6 +64,7 @@ export const pageConfig = {
 
  /**
   * key配置
+  * @property {string} tokenKey 存储token的key
   */
  export const key = {
    tokenKey: 'token'

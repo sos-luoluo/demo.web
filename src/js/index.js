@@ -1,7 +1,7 @@
 // 引入公共文件
 import '../utils/main'
 // UI组件
-import { pageLoading, tips, modal } from '../utils/components'
+import { pageLoading, tips, modal, ajaxLoading } from '../utils/components'
 // 静态数据
 import { regular } from '../utils/constants'
 // ajax方法

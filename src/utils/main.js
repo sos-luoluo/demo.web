@@ -12,7 +12,7 @@ import {templateFn} from '../utils/templateFn'
 // 初始化jquery插件
 animateCss()
 isOnScreen()
-// 模板工具辅助方法注册
+// 注册模板工具过滤器
 templateFn()
 
 // 初始化调试模式

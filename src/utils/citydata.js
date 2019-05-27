@@ -1,3 +1,15 @@
+/**
+ * 省市区静态数据
+ * @overview 省市区静态数据
+ * @author [luoluo]
+ * @version 2.0.0
+ */
+
+/**
+ * 省市区静态数据
+ * @property {string} value 邮编号
+ * @property {string} text 名字
+ */
 export const cityData = [{
     value: '330000',
     text: '浙江省',
