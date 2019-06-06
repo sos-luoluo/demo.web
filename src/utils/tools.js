@@ -88,7 +88,7 @@
     * @param {number} length 长度
     */
    randomChars: function(length) {
-     const str = ""
+     let str = ""
      const maxRandom = wordLib.charAndNum.length
      for (var i = 0; i < length; i++) {
        str += wordLib.charAndNum[Math.floor(Math.random() * maxRandom)];
@@ -135,7 +135,7 @@
     * @param {string} name 参数名称
     */
    getUrlParam: function(url, name) {
-     const reg = new RegExp("(^|[&|?])" + name + "=([^&#]*)(&|$)");
+     const reg = new RegExp("(^|[&|?])" + name + "=([^[&|\\#]*)([&|#]|$)","i");
      const r = url.match(reg);
      if (r != null) {
        return unescape(r[2]);
@@ -148,7 +148,7 @@
     * @param {number} log 输出进制
     */
    changeLog(num, log) {
-     const int = []
+     let int = []
 
      function getInt() {
        const now = num % log;

@@ -71,6 +71,13 @@ module.exports = {
         use: ['css-loader', 'less-loader'],
         publicPath: '../'
       })
+    }, {
+      test: /\.css$/,
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: ['css-loader'],
+        publicPath: '../'
+      })
     },{
       test: /\.(png|jpe?g|gif|svg)$/,
       use:[{
@@ -80,6 +87,13 @@ module.exports = {
           name: 'images/[name].[ext]'
         }
       }]
+    }, {
+      test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+      loader: 'url-loader',
+      options: {
+        limit: 10000,
+        name: 'fonts/[name].[ext]'
+      }
     }]
   },
   plugins: [

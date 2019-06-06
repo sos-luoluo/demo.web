@@ -108,13 +108,17 @@ class Ajax {
       config.headers[this.tokenKey] = token;
     }
     return new Promise((resolve, reject) => {
-      if (config.id && this.temp[config.id]) {
-        reject({
-          msg: "加载中，请稍后"
-        });
-        return;
-      }
       this.confirm(config.confirmText, () => {
+        if(config.id){
+          if(this.temp[config.id]){
+            reject({
+              msg: "加载中，请稍后"
+            });
+            return
+          }else{
+            this.temp[config.id]=true
+          }
+        }
         if (config.hasLoading) {
           ajaxLoading.show(ajaxConfig.loadingText);
         }

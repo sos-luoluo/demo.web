@@ -8,6 +8,9 @@ import vConsole from 'vconsole'
 import {animateCss,isOnScreen} from './../utils/jqueryfn'
 // 模板工具辅助方法
 import {templateFn} from '../utils/templateFn'
+// 引入bootstrap
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap'
 
 // 初始化jquery插件
 animateCss()
