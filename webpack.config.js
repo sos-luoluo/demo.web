@@ -126,7 +126,10 @@ module.exports = {
       template: './src/index.html',
       inject: 'head',
       favicon: path.resolve('favicon.ico'),
-      minify: true,
+      minify: {
+        collapseWhitespace:true,//是否去除空格
+        removeComments:true//去注释
+      },
       chunks: ['vendors','index']
     })
   ],
@@ -180,7 +183,10 @@ glob.sync('./src/views/**/*.html').forEach(function(item) {
     template: item,
     inject: 'head',
     favicon: path.resolve('favicon.ico'),
-    minify: true,
+    minify: {
+      collapseWhitespace:true,//是否去除空格
+      removeComments:true//去注释
+    },
     chunks: ['vendors',name]
   }))
 })
