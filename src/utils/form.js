@@ -117,7 +117,7 @@ export function getData(options) {
       for (let key in formData) {
         result[key] = formData[key].value
       }
-      setting.success(newFormData)
+      setting.success(result)
     },
     fail: function(item, reason) {
       setting.error(item, reason)
@@ -173,7 +173,7 @@ export function verificationCodeTime(options){
   config.$dom = $(config.el);
   config.$dom.css({ "pointer-events": "none" });
   const stopKey = setInterval(function() {
-    config.$dom.text(setting.time + "S");
+    config.$dom.text(config.time + "S");
     if (config.time < 0) {
       clearInterval(stopKey);
       config.$dom.text(config.text);

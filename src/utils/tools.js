@@ -134,8 +134,9 @@
     * @param {string} url url地址
     * @param {string} name 参数名称
     */
-   getUrlParam: function(url, name) {
+   getUrlParam: function(name,url) {
      const reg = new RegExp("(^|[&|?])" + name + "=([^[&|\\#]*)([&|#]|$)","i");
+     url=url||window.location.href
      const r = url.match(reg);
      if (r != null) {
        return unescape(r[2]);
