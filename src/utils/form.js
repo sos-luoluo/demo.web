@@ -170,7 +170,7 @@ export function verificationCodeTime(options){
     },
     options
   );
-  config.$dom = $(config.el);
+  config.$dom = typeof config.el==='string'?$(config.el):config.el;
   config.$dom.css({ "pointer-events": "none" });
   const stopKey = setInterval(function() {
     config.$dom.text(config.time + "S");

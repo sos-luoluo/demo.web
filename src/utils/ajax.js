@@ -123,7 +123,7 @@ class Ajax {
           ajaxLoading.show(ajaxConfig.loadingText);
         }
         $.ajax(config.url, {
-          contentType: config.contentType,
+          // contentType: config.contentType,
           type: config.type,
           headers: config.headers,
           processData: false,
@@ -235,6 +235,9 @@ export class ListAjax {
       this.config.current = current;
     } else {
       this.config.current++;
+    }
+    if (this.config.current === 1) {
+      $(this.config.el).empty()
     }
     ajax({
       hasLoading: this.config.hasLoading,

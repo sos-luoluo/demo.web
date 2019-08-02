@@ -9,12 +9,11 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var autoprefixer = require('autoprefixer')
 var os = require('os') //这个nodejs模块，会帮助我们获取本机ip
 var portfinder = require('portfinder') //这个帮助我们寻找可用的端口，如果默认端口被占用了的话
+var SitemapPlugin= require('sitemap-webpack-plugin').default; // sitemap插件
 
 // 动态配置入口
 function getEntry(){
   var entry={
-    // main: './src/utils/main.js'
-    // worker: './src/utils/worker.js'
   }
   glob.sync('./src/js/*.js').forEach(function(item) {
     var temp = item.split('/')
@@ -47,7 +46,7 @@ module.exports = {
   entry: getEntry(),
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'js/[name].js',
+    filename: 'js/[name]-[hash].js',
   },
   node: {
     fs: 'empty'
@@ -114,7 +113,17 @@ module.exports = {
     ], {
       context: 'src/'
     }),
-    new ExtractTextPlugin("css/[name].css", { allChunks: true }),
+    new ExtractTextPlugin({
+      filename:(getPath)=>{
+        var name=getPath('[name]')
+        if(name=='vendors'){
+          return 'css/vendors.css'
+        }else{
+          return getPath('css/main-[hash].css')
+        }
+      },
+      allChunks: true 
+    }),
     new webpack.ProvidePlugin({ //全局引入jquery
       $: "jquery",
       jQuery: "jquery",
@@ -126,12 +135,12 @@ module.exports = {
       template: './src/index.html',
       inject: 'head',
       favicon: path.resolve('favicon.ico'),
-      minify: {
+      minify:  {
         collapseWhitespace:true,//是否去除空格
         removeComments:true//去注释
       },
-      chunks: ['vendors','index']
-    })
+      chunks: ['vendors','main','index']
+    }),
   ],
   optimization: {
     splitChunks: {
@@ -172,12 +181,17 @@ module.exports = {
     }
   }
 }
+var sitemapPath=[
+  'index.html',
+  'index_cn.html'
+]
 
 // 配置HTML输出页面
 glob.sync('./src/views/**/*.html').forEach(function(item) {
   var filename = item.split('views/')[1]
   var temp = filename.split('/')
   var name = temp[temp.length - 1].split('.')[0]
+  sitemapPath.push('/views/'+filename)
   module.exports.plugins.push(new HtmlWebpackPlugin({
     filename: 'views/'+ filename,
     template: item,
@@ -187,6 +201,13 @@ glob.sync('./src/views/**/*.html').forEach(function(item) {
       collapseWhitespace:true,//是否去除空格
       removeComments:true//去注释
     },
-    chunks: ['vendors',name]
+    chunks: ['vendors','main',name]
   }))
 })
+// 配置SitemapPlugin
+module.exports.plugins.push(new SitemapPlugin('https://www.coininn.com',sitemapPath,{
+  fileName: 'sitemap.xml',
+  lastMod: true,
+  changeFreq: 'weekly',
+  priority: '0.5'
+}))

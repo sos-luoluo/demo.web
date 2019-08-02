@@ -61,7 +61,7 @@ const cookie = {
  * @property {function} del 删除方法
  * @property {function} clear 清除方法
  */
-const localStorage = {
+export const localStorage = {
   /**
    * 设置localStorage操作方法
    * @property {string} key key

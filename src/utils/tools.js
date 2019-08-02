@@ -95,6 +95,71 @@
      }
      return str
    },
+     /**
+   *查询数组极大值和极小值
+   *@param {Array} arr 数组
+   *@param {string} key key,可选
+   */
+  getArrayPeak(arr, key) {
+    let max = arr[0]
+    let min = arr[0]
+    for (let i = 0; i < arr.length; i++) {
+      if (key) {
+        arr[i].index = i
+        // console.log(arr[i])
+        if (arr[i][key] > max[key]) {
+          max = arr[i]
+        }
+        if (arr[i][key] < min[key]) {
+          min = arr[i]
+        }
+      } else {
+        if (arr[i] > max) {
+          max = arr[i]
+        }
+        if (arr[i] < min) {
+          min = arr[i]
+        }
+      }
+    }
+    return {
+      max: max,
+      min: min
+    }
+  },
+  /**
+   * 数字分段显示
+   * @param {string} num 输入数字
+   */
+  numberSection(num) {
+    if (!num) {
+      return num
+    }
+    num = (num + '').split('')
+    let result = []
+    let total = 0
+    while (num.length > 0) {
+      if ((result.length - total) % 3 == 0 && result.length > 0) {
+        result.unshift(",")
+        total++
+      }
+      result.unshift(num.pop())
+    }
+    return result.join("")
+  },
+  /**
+   * 将字符串分割为指定宽度的数组
+   * @param {string} str 输入数据
+   * @param {number} width 宽度
+   */
+  splitString(data, width) {
+    data = data + ""
+    const res = []
+    for (var i = 0; i < data.length; i += width) {
+      res.push(data.slice(i, i + width))
+    }
+    return res
+  },
    /**
     * 时间转化为指定天时分秒
     * @param {number} time 时间单位为秒

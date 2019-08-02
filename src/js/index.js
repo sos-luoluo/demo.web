@@ -22,6 +22,13 @@ $(document).ready(() => {
  */
 function bindData() {
   return new Promise((resolve, reject) => {
+    $('#listbox').html(juicer($("#listboxTemp").html(),{
+      list:[
+        {
+          groupName: '群名字'
+        }
+      ]
+    }))
     resolve()
   })
 }
@@ -31,13 +38,6 @@ function bindData() {
  */
 function bindEvent(data) {
   return new Promise((resolve, reject) => {
-    const test={}
-    test.constructor.getPrototypeOf=function(target,name){
-      console.log(name)
-      return target[name]
-    }
-    console.log(test)
-    console.log(test.a)
     resolve()
   })
 }

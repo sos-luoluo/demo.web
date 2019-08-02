@@ -372,16 +372,20 @@ export const base64 = {
  * 文件获取方法
  * @overview 获取文件流，在回调函数中会带上Blob对象,注意未指定文件类型，需要自行处理文件类型
  * @param {string} url url地址
+ * @param {string} type 文件类型
  * @param {function} callBack 回调函数
  */
-export function getFile(url, callBack) {
+export function getFile(url,type, callBack) {
   const XHR = new XMLHttpRequest();
   XHR.open("GET", url, true);
-  XHR.responseType = "blob";
+  XHR.responseType = 'arraybuffer';
+  XHR.setRequestHeader(key.tokenKey,localStorage.get(key.tokenKey))
   XHR.onload = function(oEvent) {
     const content = XHR.response;
     if (callBack) {
-      callBack(new Blob([content]));
+      callBack(new Blob([content]),{
+        type: type
+      });
     }
   };
   XHR.send();

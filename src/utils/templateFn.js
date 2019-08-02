@@ -9,13 +9,13 @@ import juicer from 'juicer'
   export function templateFn(){
     // 防止冲突，自定义边界
     juicer.set({
-      'tag::operationOpen': '{{',
+      'tag::operationOpen': '@{{', // 代码执行
       'tag::operationClose': '}}',
-      'tag::interpolateOpen': '{{',
+      'tag::interpolateOpen': '{{', // 数据绑定
       'tag::interpolateClose': '}}',
-      'tag::noneencodeOpen': '{{#',
+      'tag::noneencodeOpen': '#{{', // 避免转义绑定
       'tag::noneencodeClose': '}}',
-      'tag::commentOpen': '{{!',
+      'tag::commentOpen': '!{{', // 注释
       'tag::commentClose': '}}'
     });
     juicer.register('timeFormat',tools.timeFormat)

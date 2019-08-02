@@ -12,6 +12,7 @@ import {templateFn} from '../utils/templateFn'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
 
+
 // 初始化jquery插件
 animateCss()
 isOnScreen()

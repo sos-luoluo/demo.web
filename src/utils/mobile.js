@@ -76,8 +76,8 @@ export function setPageSize() {
   let width = $(window).width();
   let height = $(window).height();
   let styleString = "";
-  styleString += ".windowheight{height:" + windowHeight + "px};";
-  styleString += ".windowwidth{height:" + windowWidth + "px}";
+  styleString += ".windowheight{height:" + height + "px};";
+  styleString += ".windowwidth{height:" + width + "px}";
   const dom = $("#styleSheet");
   if (dom.length > 0) {
     dom.text(styleString);

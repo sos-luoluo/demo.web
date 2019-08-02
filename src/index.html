@@ -19,24 +19,24 @@
       <div>地区{{carrier}}</div>
       <div>时间{{time|timeFormat,'yyyy-mm-dd hh:nn-ss'}}</div>
       <div class="list">
-        {{each list as item,i}}
+        @{{each list as item,i}}
         <div class="item">
           <div class="id">{{item.id}}</div>
-          {{if item.id===3}}
+          @{{if item.id===3}}
           <div>if语句</div>
-          {{/if}}
+          @{{/if}}
           <div class="text">{{item.text}}</div>
         </div>
-        {{/each}}
+        @{{/each}}
       </div>
     </script>
     <script type="text/template" id="listboxTemp">
-      {{each list as item,i}}
+      @{{each list as item}}
       <div>{{item.groupName}}</div>
       <div>{{item.groupName}}</div>
       <div>{{item.groupName}}</div>
       <div>{{item.groupName}}</div>
-      {{/each}}
+      @{{/each}}
     </script>
   </body>
 </html>

@@ -38,7 +38,7 @@
    show() {
      const $loading = $('#ajaxloading')
      if ($loading.length > 0) {
-       $dom.show()
+      $loading.show()
      } else {
        $("body").append(this.html);
      }
