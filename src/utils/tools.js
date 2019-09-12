@@ -13,30 +13,30 @@
     * @param {number} timestamp 时间戳
     * @param {string} format 输出格式
     */
-   timeFormat: function(timestamp, format) {
-     if (isNaN(timestamp)) {
-       return timestamp;
-     }
-     if (timestamp < 4100000000) {
-       timestamp = timestamp * 1000;
-     }
-     const time = new Date(timestamp);
-     const week = wordLib.week;
-     const y = time.getFullYear();
-     const M = time.getMonth() + 1;
-     const d = time.getDate();
-     const h = time.getHours();
-     const m = time.getMinutes();
-     const s = time.getSeconds();
-     format = format.replace(/[y]{4}/i, y);
-     format = format.replace(/[m]{2}/i, M > 9 ? M : "0" + M)
-     format = format.replace(/[d]{2}/i, d > 9 ? d : "0" + d);
-     format = format.replace(/[h]{2}/i, h > 9 ? h : "0" + h);
-     format = format.replace(/[n]{2}/i, m > 9 ? m : "0" + m);
-     format = format.replace(/[s]{2}/i, s > 9 ? s : "0" + s);
-     format = format.replace(/[w]{2}/i, week[time.getDay()]);
-     return format;
-   },
+   timeFormat: function (timestamp, format) {
+    if (isNaN(timestamp)) {
+      return timestamp;
+    }
+    if (timestamp < 4100000000) {
+      timestamp = timestamp * 1000;
+    }
+    const time = new Date(timestamp);
+    const week = wordLib.week;
+    const y = time.getFullYear();
+    const M = time.getMonth() + 1;
+    const d = time.getDate();
+    const h = time.getHours();
+    const m = time.getMinutes();
+    const s = time.getSeconds();
+    format = format.replace(/[y]{4}/, y);
+    format = format.replace(/[M]{2}/, M > 9 ? M : "0" + M)
+    format = format.replace(/[d]{2}/, d > 9 ? d : "0" + d);
+    format = format.replace(/[h]{2}/, h > 9 ? h : "0" + h);
+    format = format.replace(/[m]{2}/, m > 9 ? m : "0" + m);
+    format = format.replace(/[s]{2}/, s > 9 ? s : "0" + s);
+    format = format.replace(/[w]{2}/, week[time.getDay()]);
+    return format;
+  },
    /**
     * 日期转化为指定格式
     * @param {string} date 日期
@@ -84,6 +84,19 @@
      return urlString.split(",")[0];
    },
    /**
+   * 将字符串分割为指定宽度的数组
+   * @param {string} str 输入数据
+   * @param {number} width 宽度
+   */
+   splitString(data, width) {
+    data = data + ""
+    const res = []
+    for (var i = 0; i < data.length; i += width) {
+      res.push(data.slice(i, i + width))
+    }
+    return res
+   },
+   /**
     * 返回随机字符串
     * @param {number} length 长度
     */
@@ -95,7 +108,7 @@
      }
      return str
    },
-     /**
+  /**
    *查询数组极大值和极小值
    *@param {Array} arr 数组
    *@param {string} key key,可选
@@ -199,15 +212,15 @@
     * @param {string} url url地址
     * @param {string} name 参数名称
     */
-   getUrlParam: function(name,url) {
-     const reg = new RegExp("(^|[&|?])" + name + "=([^[&|\\#]*)([&|#]|$)","i");
-     url=url||window.location.href
-     const r = url.match(reg);
-     if (r != null) {
-       return unescape(r[2]);
-     }
-     return null;
-   },
+   getUrlParam: function (name) {
+    let url = window.location.href
+    const reg = new RegExp("(^|[&|?])" + name + "=([^[&|\\#]*)([&|#]|$)", "i");
+    const r = url.match(reg);
+    if (r != null) {
+      return unescape(r[2]);
+    }
+    return null;
+  },
    /**
     * 转换数据进制
     * @param {number} num 输入十进制数字

@@ -1,6 +1,7 @@
-import { ajaxLoading, modal, tips, listStateChange } from "./components";
-import { key, ajaxConfig } from "./config";
-import { localStorage } from "./cookie";
+import {ajaxLoading, modal, tips, listStateChange} from "./components";
+import {key, ajaxConfig, precedenceLogin,pageConfig} from "./config";
+import {localStorage} from "./cookie";
+import tools from "./tools";
 
 /**
  * ajax请求二次封装
@@ -44,8 +45,10 @@ class Ajax {
     data: {},
     dataType: undefined,
     context: undefined,
-    processData: true
+    processData: true,
+    encrypt: true
   };
+
   /**
    * 通用请求方法
    * 初始化的时候初始化全局请求固定的参数，如请求头部、tokenKey
@@ -53,52 +56,55 @@ class Ajax {
    * @param {string} tokenKey token配置
    */
   constructor(urlHead, tokenKey) {
-      this.urlHead = urlHead;
-      this.tokenKey = tokenKey;
-    }
-    /**
-     * 确认弹窗
-     * @param {string} confirmText 确认提示文字
-     * @param {function} callback 回调函数
-     */
+    this.urlHead = urlHead;
+    this.tokenKey = tokenKey;
+  }
+
+  /**
+   * 确认弹窗
+   * @param {string} confirmText 确认提示文字
+   * @param {function} callback 回调函数
+   */
   confirm(confirmText, callback) {
-      if (confirmText) {
-        modal({
-          title: "确认",
-          content: confirmText,
-          success: () => {
-            callback && callback();
-          }
-        });
-      } else {
-        callback && callback();
-      }
-    }
-    /**
-     * 判断请求是否锁定
-     * @param {string} id 请求唯一ID
-     * @param {function} callback 回调函数
-     */
-  lock(id, callback) {
-      if (id) {
-        if (!this.temp[id]) {
+    if (confirmText) {
+      modal({
+        title: "确认",
+        content: confirmText,
+        buttomRightFn: () => {
           callback && callback();
         }
-      } else {
+      });
+    } else {
+      callback && callback();
+    }
+  }
+
+  /**
+   * 判断请求是否锁定
+   * @param {string} id 请求唯一ID
+   * @param {function} callback 回调函数
+   */
+  lock(id, callback) {
+    if (id) {
+      if (!this.temp[id]) {
         callback && callback();
       }
+    } else {
+      callback && callback();
     }
-    /**
-     * 发送请求方法
-     * @param {object} options 配置
-     * @param {string} id 需要锁定ajax请求时，请加入此参数
-     * @param {boolean} hasLoading 是否开启loading
-     * @param {string} confirmText 确认弹窗提示信息
-     * @param {string} type 请求方式
-     * @param {boolean} processData 是否序列化参数，formData需要关掉
-     * @param {object} data 参数
-     * @param {boolean} urlAuto 是否自动处理请求地址，可以用来处理特殊请求
-     */
+  }
+
+  /**
+   * 发送请求方法
+   * @param {object} options 配置
+   * @param {string} id 需要锁定ajax请求时，请加入此参数
+   * @param {boolean} hasLoading 是否开启loading
+   * @param {string} confirmText 确认弹窗提示信息
+   * @param {string} type 请求方式
+   * @param {boolean} processData 是否序列化参数，formData需要关掉
+   * @param {object} data 参数
+   * @param {boolean} urlAuto 是否自动处理请求地址，可以用来处理特殊请求
+   */
   request(options) {
     const config = $.extend({}, this.config, options);
     config.url = config.urlAuto ? this.urlHead + config.url : config.url;
@@ -109,28 +115,28 @@ class Ajax {
     }
     return new Promise((resolve, reject) => {
       this.confirm(config.confirmText, () => {
-        if(config.id){
-          if(this.temp[config.id]){
+        if (config.id) {
+          if (this.temp[config.id]) {
             reject({
               msg: "加载中，请稍后"
             });
             return
-          }else{
-            this.temp[config.id]=true
+          } else {
+            this.temp[config.id] = true
           }
         }
         if (config.hasLoading) {
           ajaxLoading.show(ajaxConfig.loadingText);
         }
+        config.data._v=new Date().getTime()
         $.ajax(config.url, {
-          // contentType: config.contentType,
+          contentType: config.contentType,
           type: config.type,
           headers: config.headers,
-          processData: false,
           data: config.data,
           dataType: config.dataType,
           context: undefined,
-          processData: config.processData,
+          processData: config.processData || false,
           complete: (XHR, TS) => {
             delete this.temp[config.id];
             if (config.hasLoading) {
@@ -141,6 +147,11 @@ class Ajax {
               if (XHR.responseJSON && XHR.responseJSON.code === 0) {
                 config.success && config.success(XHR.responseJSON);
                 resolve(XHR.responseJSON);
+              } else if (XHR.responseJSON && XHR.responseJSON.code === 10007) {
+                // token失效，返回登录
+                tips('您尚未登录',function () {
+                  tools.urlJump(pageConfig.login)
+                })
               } else {
                 config.fail && config.fail(XHR.responseJSON);
                 reject(XHR.responseJSON);
@@ -201,10 +212,11 @@ export class ListAjax {
     this.pageTotal = 1;
 
     this.config = $.extend({
-        id: options.el,
+        id: options.el || "list",
         el: "#list",
         scrollBox: "body",
         hasLoading: false,
+        hasState: true,
         urlAuto: true,
         url: "",
         data: {},
@@ -213,6 +225,7 @@ export class ListAjax {
         success: undefined,
         fail: undefined,
         complete: undefined,
+        encrypt: true,
         current: 0,
         size: 10
       },
@@ -221,6 +234,7 @@ export class ListAjax {
 
     this.bindEvent();
   }
+
   /**
    * 发送请求方法
    * @param {number} current 可选，页码
@@ -230,7 +244,9 @@ export class ListAjax {
       return;
     }
     this.listState = 1;
-    listStateChange(this.config.el, 1);
+    if(this.config.hasState){
+      listStateChange(this.config.el, 1);
+    }
     if (current && current <= this.pageTotal) {
       this.config.current = current;
     } else {
@@ -250,6 +266,7 @@ export class ListAjax {
         },
         this.config.data
       ),
+      encrypt: this.config.encrypt,
       dataType: this.config.dataType,
       complete: res => {
         if (this.config.once) {
@@ -261,40 +278,47 @@ export class ListAjax {
         }
       }
     })
-    .then(res => {
-      this.pageTotal = res.data.pages;
-      listStateChange(this.config.el, 0);
-      if (this.pageTotal === 0) {
-        this.listState = 2;
-      } else if (this.pageTotal === this.config.current) {
-        this.listState = 3;
-      } else {
-        this.listState = 0;
-      }
-      if (res.data.records.length > 0) {
-        var result = "";
-        if (this.config.result) {
-          result = this.config.result(res.data.records);
+      .then(res => {
+        this.pageTotal = res.data.pages;
+        if(this.config.hasState){
+          listStateChange(this.config.el, 0);
         }
-        if (this.config.current === 1) {
-          $(this.config.el).html(result);
+        if (this.pageTotal === 0) {
+          this.listState = 2;
+        } else if (this.pageTotal === this.config.current) {
+          this.listState = 3;
         } else {
-          $(this.config.el).append(result);
+          this.listState = 0;
         }
-      }
-      listStateChange(this.config.el, this.listState);
-      if (this.config.success) {
-        this.config.success(res);
-      }
-    })
-    .catch(res => {
-      this.listState = 0;
-      listStateChange(this.config.el, this.listState);
-      if (this.config.fail) {
-        this.config.fail(res);
-      }
-    });
+        if (res.data.records.length > 0) {
+          var result = "";
+          if (this.config.result) {
+            result = this.config.result(res.data.records);
+          }
+          if (this.config.current === 1) {
+            $(this.config.el).html(result);
+          } else {
+            $(this.config.el).append(result);
+          }
+        }
+        if(this.config.hasState){
+          listStateChange(this.config.el, this.listState);
+        }
+        if (this.config.success) {
+          this.config.success(res);
+        }
+      })
+      .catch(res => {
+        this.listState = 0;
+        if(this.config.hasState){
+          listStateChange(this.config.el, this.listState);
+        }
+        if (this.config.fail) {
+          this.config.fail(res);
+        }
+      });
   }
+
   /**
    * 绑定滚动事件，内部方法
    */
@@ -302,13 +326,14 @@ export class ListAjax {
     $(this.config.scrollBox).scroll(e => {
       if (
         $(this.config.el)
-        .find(":last")
-        .isOnScreen()
+          .find(":last")
+          .isOnScreen()
       ) {
         this.send();
       }
     });
   }
+
   /**
    * 新增或改变参数
    * @param {object} data 参数
@@ -316,6 +341,7 @@ export class ListAjax {
   changeData(data) {
     this.config.data = $.extend(true, this.config.data, data);
   }
+
   /**
    * 删除参数
    * @param {string} name 参数名
@@ -323,6 +349,7 @@ export class ListAjax {
   delData(name) {
     delete this.config.data[name];
   }
+
   /**
    * 改变请求url地址
    * @param {string} url 新的请求地址
@@ -330,11 +357,12 @@ export class ListAjax {
   changeURL(url) {
     this.config.url = url;
   }
+
   /**
    * 重置列表,列表状态
    */
   refreshPage() {
-    this.config.listState = 0;
+    this.listState = 0;
     this.config.current = 0;
     this.send();
   }

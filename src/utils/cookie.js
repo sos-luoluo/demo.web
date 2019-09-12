@@ -11,7 +11,7 @@
  * @property {function} get 获取方法
  * @property {function} del 删除方法
  */
-const cookie = {
+export const cookie = {
   /**
    * 设置cookie操作方法
    * @property {string} key key
