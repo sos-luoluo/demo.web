@@ -10,6 +10,7 @@ var autoprefixer = require('autoprefixer')
 var os = require('os') //这个nodejs模块，会帮助我们获取本机ip
 var portfinder = require('portfinder') //这个帮助我们寻找可用的端口，如果默认端口被占用了的话
 var SitemapPlugin= require('sitemap-webpack-plugin').default; // sitemap插件
+var ProgressBarPlugin = require('progress-bar-webpack-plugin'); // 进度条插件
 
 // 动态配置入口
 function getEntry(){
@@ -35,13 +36,13 @@ function getIPAdress() {
     }
   }
 }
-// 配置端口
-var devPort = 8080
-portfinder.basePort = "8080"; //将我们默认的端口设置成8080，默认配置是8000
-portfinder.getPort(function(err, port) { //这个函数，portfinder会自动找到可用的端口
-  devPort = port; 
-});
 
+// 配置端口
+var devPort = 9527
+portfinder.basePort = 9527; //将我们默认的端口设置成9527，默认配置是9527
+portfinder.getPort(function(err, port) { //这个函数，portfinder会自动找到可用的端口
+  devPort = port;
+});
 module.exports = {
   entry: getEntry(),
   output: {
@@ -96,15 +97,12 @@ module.exports = {
     }]
   },
   plugins: [
+    new ProgressBarPlugin(),
     new CleanWebpackPlugin(),
     // 复制资源文件
     new CopyWebpackPlugin([{
         from: 'images',
         to: 'images'
-      },
-      {
-        from: 'assets',
-        to: 'assets'
       },
       {
         from: 'plugins',
@@ -122,7 +120,7 @@ module.exports = {
           return getPath('css/main-[hash].css')
         }
       },
-      allChunks: true 
+      allChunks: true
     }),
     new webpack.ProvidePlugin({ //全局引入jquery
       $: "jquery",
@@ -173,17 +171,26 @@ module.exports = {
     overlay: true, //出现错误之后会在页面中出现遮罩层提示
     contentBase: path.resolve(__dirname, 'dist'), //最好设置成绝对路径
     proxy: {
-      "/qtv": {
-        target:"http://www.iquntv.com",
+      "/api/v1/h5": {
+        //target:"http://192.168.0.104:8089",
+        // target: "https://www.coininn.com",
+        target: "https://vsys.yykik.com",
         secure: true,  // 如果是https接口，需要配置这个参数
         changeOrigin: true
-      }
+      },
+      // "/api/v1/websocket": {
+      //   target: "wss://www.coininn.com",
+      //   ws: true,
+      //   logLevel: 'debug',
+      //   secure: false,  // 如果是https接口，需要配置这个参数
+      //   changeOrigin: true
+      // }
     }
   }
 }
+
 var sitemapPath=[
   'index.html',
-  'index_cn.html'
 ]
 
 // 配置HTML输出页面
