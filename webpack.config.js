@@ -11,6 +11,8 @@ var os = require('os') //这个nodejs模块，会帮助我们获取本机ip
 var portfinder = require('portfinder') //这个帮助我们寻找可用的端口，如果默认端口被占用了的话
 var SitemapPlugin= require('sitemap-webpack-plugin').default; // sitemap插件
 var ProgressBarPlugin = require('progress-bar-webpack-plugin'); // 进度条插件
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+
 
 // 动态配置入口
 function getEntry(){
@@ -126,6 +128,15 @@ module.exports = {
       $: "jquery",
       jQuery: "jquery",
       "window.jQuery": "jquery"
+    }),
+    new UglifyJsPlugin({
+      uglifyOptions:{
+        output:{
+          comments: false,
+          beautify: false,
+        },
+        compress: true,
+      },
     }),
     // 首页需要单独配置
     new HtmlWebpackPlugin({
