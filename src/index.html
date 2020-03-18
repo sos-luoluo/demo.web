@@ -1,42 +1,25 @@
 <!DOCTYPE html>
 <html lang="zh">
-  <head>
-    <%=require('html-loader!./html-block/head.html')%>
-    <title>模板项目</title>
-  </head>
-  <body>
-    <div class="page home" id="page">
-      这是模板项目
-      <div id="form">
-        <input id="phone" type="number" placeholder="请输入手机号码" />
-        <div id="result"></div>
-      </div>
-      <button id="btn">查询手机号</button>
-      <div id="listbox" style="font-size: 20px;line-height: 2;"></div>
-    </div>
-    <!-- 模板写在下面 -->
-    <script type="text/template" id="resultTemp">
-      <div>地区{{carrier}}</div>
-      <div>时间{{time|timeFormat,'yyyy-mm-dd hh:nn-ss'}}</div>
-      <div class="list">
-        @{{each list as item,i}}
-        <div class="item">
-          <div class="id">{{item.id}}</div>
-          @{{if item.id===3}}
-          <div>if语句</div>
-          @{{/if}}
-          <div class="text">{{item.text}}</div>
-        </div>
-        @{{/each}}
-      </div>
-    </script>
-    <script type="text/template" id="listboxTemp">
-      @{{each list as item}}
-      <div>{{item.groupName}}</div>
-      <div>{{item.groupName}}</div>
-      <div>{{item.groupName}}</div>
-      <div>{{item.groupName}}</div>
-      @{{/each}}
-    </script>
-  </body>
+
+<head>
+  <%=require('html-loader!./html-block/head.html')%>
+    <title>这是模板项目</title>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script> -->
+</head>
+
+
+<body>
+  <style>
+    body {
+      font: 12px Arial;
+    }
+    
+    svg {
+      display: block;
+    }
+  </style>
+  <div class="page home" id="page">
+  </div>
+</body>
+
 </html>
