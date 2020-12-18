@@ -13,7 +13,11 @@ import { templateFn } from '../utils/templateFn'
 // 引入bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
+import WebUploader from "webuploader";
 
+window.WebUploader=WebUploader
+window.jQuery=$
+window.$=$
 
 // 初始化jquery插件
 animateCss()

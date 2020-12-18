@@ -40,8 +40,8 @@ function getIPAdress() {
 }
 
 // 配置端口
-var devPort = 9527
-portfinder.basePort = 9527; //将我们默认的端口设置成9527，默认配置是9527
+var devPort = 9526;
+portfinder.basePort = 9526; //将我们默认的端口设置成9527，默认配置是9527
 portfinder.getPort(function(err, port) { //这个函数，portfinder会自动找到可用的端口
   devPort = port;
 });
@@ -127,7 +127,8 @@ module.exports = {
     new webpack.ProvidePlugin({ //全局引入jquery
       $: "jquery",
       jQuery: "jquery",
-      "window.jQuery": "jquery"
+      // "window.jQuery": "jquery",
+      // "window.$": "jquery"
     }),
     new UglifyJsPlugin({
       uglifyOptions:{
@@ -175,29 +176,20 @@ module.exports = {
     }
   },
   stats:'minimal',
-  devServer: {
-    host: getIPAdress(),
-    port: devPort,
-    open: true,
-    overlay: true, //出现错误之后会在页面中出现遮罩层提示
-    contentBase: path.resolve(__dirname, 'dist'), //最好设置成绝对路径
-    proxy: {
-      "/api/v1/h5": {
-        //target:"http://192.168.0.104:8089",
-        // target: "https://www.coininn.com",
-        target: "https://vsys.yykik.com",
-        secure: true,  // 如果是https接口，需要配置这个参数
-        changeOrigin: true
-      },
-      // "/api/v1/websocket": {
-      //   target: "wss://www.coininn.com",
-      //   ws: true,
-      //   logLevel: 'debug',
-      //   secure: false,  // 如果是https接口，需要配置这个参数
-      //   changeOrigin: true
-      // }
-    }
-  }
+  // devServer: {
+  //   host: getIPAdress(),
+  //   port: devPort,
+  //   open: true,
+  //   overlay: true, //出现错误之后会在页面中出现遮罩层提示
+  //   contentBase: path.resolve(__dirname, 'dist'), //最好设置成绝对路径
+  //   proxy: {
+  //     "/api": {
+  //       target: "http://localhost:5000",
+  //       // secure: true,  // 如果是https接口，需要配置这个参数
+  //       changeOrigin: true,
+  //     }
+  //   }
+  // }
 }
 
 var sitemapPath=[

@@ -35,7 +35,7 @@
   * @property {string} loadingText loading显示的文字
   */
  export const ajaxConfig = {
-   urlHead: environment === "development" ? "/qtv" : "/qtv",
+   urlHead: environment === "development" ? "http://localhost:5000/api" : "/resource",
    imgUpload: "",
    fileUpload: "",
    loadingText: "加载中"

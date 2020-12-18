@@ -41,7 +41,7 @@ class Ajax {
     url: "",
     urlAuto: true,
     type: "POST",
-    contentType: "application/x-www-form-urlencoded",
+    contentType: "application/json",
     data: {},
     dataType: undefined,
     context: undefined,
@@ -128,12 +128,12 @@ class Ajax {
         if (config.hasLoading) {
           ajaxLoading.show(ajaxConfig.loadingText);
         }
-        config.data._v=new Date().getTime()
+        // config.data._v=new Date().getTime()
         $.ajax(config.url, {
           contentType: config.contentType,
           type: config.type,
           headers: config.headers,
-          data: config.data,
+          data: JSON.stringify(config.data),
           dataType: config.dataType,
           context: undefined,
           processData: config.processData || false,
