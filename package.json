@@ -58,7 +58,7 @@
     "jweixin-wechat": "^1.4.0",
     "popper.js": "^1.16.1",
     "swiper": "^3.4.2",
-    "underscore": "^1.11.0",
+    "underscore": "^1.12.1",
     "vconsole": "^3.3.4",
     "webuploader": "^0.1.8"
   },
